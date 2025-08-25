@@ -220,6 +220,21 @@ def upload_file():
     
     return render_template('upload.html', message=message)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        admin_id = request.form.get('admin_id')
+        password = request.form.get('password')
+        
+        # Hardcoded credentials for simplicity
+        logger.info(f"Login attempt with Admin ID: {admin_id}")
+        if admin_id == 'admin' and password == 'password':
+            return redirect(url_for('admin'))
+        else:
+            flash("Invalid credentials. Please try again.", "error")
+    
+    return render_template('login.html')
+
 @app.route('/admin')
 def admin():
     conn = get_db_connection()
