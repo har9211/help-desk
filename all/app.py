@@ -24,13 +24,20 @@ def init_db():
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
 
-        # Tickets table with additional fields
+        # Enhanced tickets table with additional fields
         c.execute('''CREATE TABLE IF NOT EXISTS tickets (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         name TEXT NOT NULL,
+                        email TEXT,
+                        phone TEXT,
+                        location TEXT NOT NULL,
+                        category TEXT NOT NULL,
                         issue TEXT NOT NULL,
                         file_path TEXT,
-                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                        status TEXT DEFAULT 'pending',
+                        priority TEXT DEFAULT 'medium',
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )''')
 
         # Chat logs table
@@ -41,9 +48,17 @@ def init_db():
                         language TEXT,
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )''')
+        
+        # Create unanswered queries table if it doesn't exist
+        c.execute('''CREATE TABLE IF NOT EXISTS unanswered_queries (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        query TEXT,
+                        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )''')
+        
         conn.commit()
         conn.close()
-        logger.info("Database initialized successfully")
+        logger.info("Database initialized successfully with enhanced schema")
     except Exception as e:
         logger.error(f"Error initializing database: {e}")
 
@@ -117,12 +132,23 @@ def chatbot():
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
     if request.method == 'POST':
+        # Get all form data
         name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip()
+        phone = request.form.get('phone', '').strip()
+        location = request.form.get('location', '').strip()
+        category = request.form.get('category', '').strip()
         issue = request.form.get('issue', '').strip()
         file = request.files.get('file')
 
-        if not name or not issue:
-            flash("Name and issue are required fields.", "error")
+        # Enhanced validation
+        if not name or not location or not category or not issue:
+            flash("Name, location, category, and issue description are required fields.", "error")
+            return render_template('submit.html')
+
+        # Validate email format if provided
+        if email and '@' not in email:
+            flash("Please enter a valid email address.", "error")
             return render_template('submit.html')
 
         file_path = None
@@ -143,15 +169,17 @@ def submit():
             else:
                 flash("Invalid file type. Please upload .txt, .pdf, or .docx files.", "error")
 
-        # Save to DB
+        # Save to DB with enhanced fields
         conn = get_db_connection()
         if conn:
             try:
                 c = conn.cursor()
-                c.execute("INSERT INTO tickets (name, issue, file_path) VALUES (?, ?, ?)",
-                          (name, issue, file_path))
+                c.execute('''INSERT INTO tickets 
+                            (name, email, phone, location, category, issue, file_path) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                          (name, email or None, phone or None, location, category, issue, file_path))
                 conn.commit()
-                flash("Your issue has been submitted successfully!", "success")
+                flash("Your issue has been submitted successfully! We'll get back to you soon.", "success")
             except Exception as e:
                 logger.error(f"Error saving ticket: {e}")
                 flash("Error submitting your issue. Please try again.", "error")
