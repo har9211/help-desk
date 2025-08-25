@@ -1,44 +1,47 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Admin View</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Admin View</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-  <main>
-    <h2>Submitted Issues</h2>
-    {% if tickets and tickets|length > 0 %}
-      <ul>
-        {% for ticket in tickets %}
-          <li><strong>{{ ticket[1] }}</strong>: {{ ticket[2] }}</li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No tickets yet.</p>
-    {% endif %}
+    <main>
+        <h2>Submitted Issues</h2>
+        {% if tickets and tickets|length > 0 %}
+        <ul>
+            {% for ticket in tickets %}
+            <li><strong>{{ ticket[1] }}</strong>: {{ ticket[2] }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No tickets yet.</p>
+        {% endif %}
 
-    <h2>Chat Logs</h2>
-    {% if chats and chats|length > 0 %}
-      <ul>
-        {% for chat in chats %}
-          <li>
-            <strong>User:</strong> {{ chat[1] }}<br>
-            <strong>Bot:</strong> {{ chat[2] }}<br>
-            <em>Lang: {{ chat[3] }} | Time: {{ chat[4] }}</em>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No chats yet.</p>
-    {% endif %}
+        <h2>Chat Logs</h2>
+        {% if chats and chats|length > 0 %}
+        <ul>
+            {% for chat in chats %}
+            <li>
+                <strong>User:</strong> {{ chat[1] }}<br>
+                <strong>Bot:</strong> {{ chat[2] }}<br>
+                <em>Lang: {{ chat[3] }} | Time: {{ chat[4] }}</em>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No chats yet.</p>
+        {% endif %}
 
-    <a href="{{ url_for('home') }}">Back</a>
-  </main>
+        <a href="{{ url_for('home') }}">Back</a>
+    </main>
 
-  <!-- Google Translate Element -->
-  <div id="google_translate_element" style="display:none;"></div>
-  <button id="translate-btn" title="Translate Page" style="position:fixed;bottom:30px;right:30px;z-index:1000;">🌐 Translate</button>
+    <!-- Google Translate Element -->
+    <div id="google_translate_element" style="display:none;"></div>
+    <button id="translate-btn" title="Translate Page" style="position:fixed;bottom:30px;right:30px;z-index:1000;">🌐 Translate</button>
 
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>

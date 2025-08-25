@@ -1,45 +1,59 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Chatbot Help</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <style>
-    body { margin:0;
-         height:100vh;
-          display:flex; 
-          justify-content:center;
-           align-items:center;
-           background: linear-gradient(135deg, #1e3c72, #2a5298, #6a85b6);
-            background-size:200% 200%;
-           animation: gradientMove 12s ease infinite; }
-    @keyframes gradientMove {
-         0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-  </style>
+    <title>Chatbot Help</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #6a85b6);
+            background-size: 200% 200%;
+            animation: gradientMove 12s ease infinite;
+        }
+        
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%
+            }
+            50% {
+                background-position: 100% 50%
+            }
+            100% {
+                background-position: 0% 50%
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
-    <h2>Chatbot Help</h2>
-    <form method="post">
-      <input type="text" name="query" placeholder="Ask your question" value="{{ query or '' }}" required>
-      <select name="language">
+    <div class="container">
+        <h2>Chatbot Help</h2>
+        <form method="post">
+            <input type="text" name="query" placeholder="Ask your question" value="{{ query or '' }}" required>
+            <select name="language">
         <option value="en" {% if language == 'en' %}selected{% endif %}>English</option>
         <option value="hi" {% if language == 'hi' %}selected{% endif %}>हिंदी</option>
       </select>
-      <input type="submit" value="Ask">
-    </form>
+            <input type="submit" value="Ask">
+        </form>
 
-    {% if response %}
-    <div class="response-box">
-      <strong>Bot:</strong> {{ response }}
+        {% if response %}
+        <div class="response-box">
+            <strong>Bot:</strong> {{ response }}
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('home') }}">⬅ Back</a>
     </div>
-    {% endif %}
-
-    <a href="{{ url_for('home') }}">⬅ Back</a>
-  </div>
-  <!-- Google Translate Element -->
-  <div id="google_translate_element" style="display:none;"></div>
-  <button id="translate-btn" title="Translate Page" style="position:fixed;bottom:30px;right:30px;z-index:1000;">🌐 Translate</button>
-  <select id="language-select">
+    <!-- Google Translate Element -->
+    <div id="google_translate_element" style="display:none;"></div>
+    <button id="translate-btn" title="Translate Page" style="position:fixed;bottom:30px;right:30px;z-index:1000;">🌐 Translate</button>
+    <select id="language-select">
     <option value="en">English</option>
     <option value="hi">Hindi</option>
     <option value="bn">Bengali</option>
@@ -52,6 +66,7 @@
     <option value="te">Telugu</option>
     <!-- Add more Indian languages as needed -->
   </select>
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>
