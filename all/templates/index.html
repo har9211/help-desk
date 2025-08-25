@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Village Help Desk</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+      }
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        width: 350px;
+      }
+      a.btn {
+        display: block;
+        padding: 12px;
+        border-radius: 8px;
+        background: #7e57c2;
+        color: #fff;
+        font-weight: bold;
+        margin: 10px 0;
+        text-decoration: none;
+      }
+      a.btn:hover {
+        background: #5e35b1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>Village Help Desk</h2>
+      <a class="btn" href="{{ url_for('chatbot') }}">Chatbot</a>
+      <a class="btn" href="{{ url_for('submit') }}">Submit an Issue</a>
+      <a class="btn" href="{{ url_for('admin') }}">Admin View</a>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>

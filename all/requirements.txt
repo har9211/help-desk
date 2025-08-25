@@ -1,0 +1,7 @@
+Flask==2.3.2
+Werkzeug>=2.3.3
+googletrans==4.0.0rc1
+
+# Flask-Mail==0.9.1         # For email integration (optional)
+# python-docx==1.1.0        # If you want to read .docx files
+# chatterbot==1.0.5         # If you switch to a chatbot library

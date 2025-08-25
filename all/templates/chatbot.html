@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chatbot Help</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body { margin:0;
+         height:100vh;
+          display:flex; 
+          justify-content:center;
+           align-items:center;
+           background: linear-gradient(135deg, #1e3c72, #2a5298, #6a85b6);
+            background-size:200% 200%;
+           animation: gradientMove 12s ease infinite; }
+    @keyframes gradientMove {
+         0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Chatbot Help</h2>
+    <form method="post">
+      <input type="text" name="query" placeholder="Ask your question" value="{{ query or '' }}" required>
+      <select name="language">
+        <option value="en" {% if language == 'en' %}selected{% endif %}>English</option>
+        <option value="hi" {% if language == 'hi' %}selected{% endif %}>हिंदी</option>
+      </select>
+      <input type="submit" value="Ask">
+    </form>
+
+    {% if response %}
+    <div class="response-box">
+      <strong>Bot:</strong> {{ response }}
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}">⬅ Back</a>
+  </div>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
