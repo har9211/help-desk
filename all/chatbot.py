@@ -10,3 +10,16 @@ def get_response(user_input):
         return "For health services, visit the nearest Primary Health Center (PHC)."
     else:
         return "Sorry, I couldn't understand. Please submit your issue for manual review."
+    
+
+
+
+
+
+
+
+
+
+
+
+    
