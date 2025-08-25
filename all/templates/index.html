@@ -34,6 +34,31 @@
       a.btn:hover {
         background: #5e35b1;
       }
+      /* Add this CSS to style the translation button and select */
+      #translate-btn {
+        margin-top: 20px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+      }
+      #translate-btn:hover {
+        background-color: #0056b3;
+      }
+      #language-select {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
@@ -43,6 +68,23 @@
       <a class="btn" href="{{ url_for('submit') }}">Submit an Issue</a>
       <a class="btn" href="{{ url_for('admin') }}">Admin View</a>
     </div>
+    <!-- Add this before </body> in your templates (e.g., index.html, chatbot.html, etc.) -->
+    <!-- Google Translate Element -->
+    <div id="google_translate_element" style="display:none;"></div>
+    <button id="translate-btn" title="Translate Page" style="position:fixed;bottom:30px;right:30px;z-index:1000;">🌐 Translate</button>
+    <select id="language-select">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+        <option value="bn">Bengali</option>
+        <option value="gu">Gujarati</option>
+        <option value="kn">Kannada</option>
+        <option value="ml">Malayalam</option>
+        <option value="mr">Marathi</option>
+        <option value="pa">Punjabi</option>
+        <option value="ta">Tamil</option>
+        <option value="te">Telugu</option>
+        <!-- Add more Indian languages as needed -->
+    </select>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>

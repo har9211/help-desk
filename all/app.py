@@ -48,19 +48,19 @@ def home():
 def chatbot():
     response = ""
     user_input = ""
-    selected_lang = "en"
+    selected_lang = request.args.get("language", "en")  # <-- updated to get from query param
     if request.method == 'POST':
         user_input = request.form.get('query', '').strip()
-        selected_lang = request.form.get("language", "en")
+        selected_lang = request.form.get("language", selected_lang)
 
         if user_input:
             # Get response from chatbot core
             raw_response = get_response(user_input)
 
             # Translate response based on chosen language
-            if selected_lang == "hi":
+            if selected_lang != "en":
                 try:
-                    response = translator.translate(raw_response, dest='hi').text
+                    response = translator.translate(raw_response, dest=selected_lang).text
                 except Exception:
                     response = raw_response  # fallback if translation fails
             else:
