@@ -34,5 +34,11 @@
 
     <a href="{{ url_for('home') }}">Back</a>
   </main>
+
+  <!-- Google Translate Element -->
+  <div id="google_translate_element" style="display:none;"></div>
+  <button id="translate-btn" title="Translate Page" style="position:fixed;bottom:30px;right:30px;z-index:1000;">🌐 Translate</button>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
