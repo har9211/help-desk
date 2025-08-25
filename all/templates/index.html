@@ -62,6 +62,13 @@
     </style>
   </head>
   <body>
+    <!-- Admin Indicator in Top Left -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+      <a class="btn" href="{{ url_for('login') }}" style="background: #28a745; padding: 8px 15px; font-size: 14px;">
+        🔐 Admin Login
+      </a>
+    </div>
+    
     <div class="card">
       <h2>Village Help Desk</h2>
       <a class="btn" href="{{ url_for('chatbot') }}">Chatbot</a>

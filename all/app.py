@@ -56,9 +56,22 @@ def init_db():
                         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )''')
         
+        # Create admins table for proper authentication
+        c.execute('''CREATE TABLE IF NOT EXISTS admins (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        admin_id TEXT NOT NULL UNIQUE,
+                        password TEXT NOT NULL
+                    )''')
+        
+        # Insert default admin if not exists
+        c.execute("SELECT COUNT(*) FROM admins WHERE admin_id = 'admin'")
+        if c.fetchone()[0] == 0:
+            c.execute("INSERT INTO admins (admin_id, password) VALUES (?, ?)", 
+                     ('admin', 'password'))  # Default password, should be changed in production
+        
         conn.commit()
         conn.close()
-        logger.info("Database initialized successfully with enhanced schema")
+        logger.info("Database initialized successfully with enhanced schema including admin table")
     except Exception as e:
         logger.error(f"Error initializing database: {e}")
 
@@ -226,12 +239,29 @@ def login():
         admin_id = request.form.get('admin_id')
         password = request.form.get('password')
         
-        # Hardcoded credentials for simplicity
         logger.info(f"Login attempt with Admin ID: {admin_id}")
-        if admin_id == 'admin' and password == 'password':
-            return redirect(url_for('admin'))
+        
+        # Check credentials against database
+        conn = get_db_connection()
+        if conn:
+            try:
+                c = conn.cursor()
+                c.execute("SELECT * FROM admins WHERE admin_id = ? AND password = ?", (admin_id, password))
+                admin = c.fetchone()
+                
+                if admin:
+                    # Successful login - redirect to admin dashboard
+                    flash("Login successful!", "success")
+                    return redirect(url_for('admin'))
+                else:
+                    flash("Invalid credentials. Please try again.", "error")
+            except Exception as e:
+                logger.error(f"Error during login: {e}")
+                flash("An error occurred during login. Please try again.", "error")
+            finally:
+                conn.close()
         else:
-            flash("Invalid credentials. Please try again.", "error")
+            flash("Database connection error. Please try again.", "error")
     
     return render_template('login.html')
 

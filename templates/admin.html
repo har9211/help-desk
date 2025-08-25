@@ -1,0 +1,25 @@
+{% if error %}
+  <div class="error">{{ error }}</div>
+{% endif %}
+
+<h2>Submitted Issues</h2>
+{% if issues and issues|length > 0 %}
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+    </tr>
+    {% for issue in issues %}
+      <tr>
+        <td>{{ issue[0] }}</td>
+        <td>{{ issue[1] }}</td>
+        <td>{{ issue[2] }}</td>
+        <td>{{ issue[3] }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}
+  <p>No issues submitted yet.</p>
+{% endif %}
