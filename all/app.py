@@ -10,6 +10,8 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
 
 translator = Translator()
 
+
+
 # DB setup
 def init_db():
     conn = sqlite3.connect('database.db')
