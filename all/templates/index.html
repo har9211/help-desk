@@ -1,72 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Village Help Desk</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
     <style>
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: linear-gradient(135deg, #e0f7fa, #e1bee7);
-      }
-      .card {
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        text-align: center;
-        width: 350px;
-      }
-      a.btn {
-        display: block;
-        padding: 12px;
-        border-radius: 8px;
-        background: #7e57c2;
-        color: #fff;
-        font-weight: bold;
-        margin: 10px 0;
-        text-decoration: none;
-      }
-      a.btn:hover {
-        background: #5e35b1;
-      }
-      /* Add this CSS to style the translation button and select */
-      #translate-btn {
-        margin-top: 20px;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        background-color: #007bff;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 1000;
-      }
-      #translate-btn:hover {
-        background-color: #0056b3;
-      }
-      #language-select {
-        margin-top: 10px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-      }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #e0f7fa, #e1bee7);
+        }
+        
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            width: 350px;
+        }
+        
+        a.btn {
+            display: block;
+            padding: 12px;
+            border-radius: 8px;
+            background: #7e57c2;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px 0;
+            text-decoration: none;
+        }
+        
+        a.btn:hover {
+            background: #5e35b1;
+        }
+        /* Add this CSS to style the translation button and select */
+        
+        #translate-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+        #translate-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        #language-select {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="card">
-      <h2>Village Help Desk</h2>
-      <a class="btn" href="{{ url_for('chatbot') }}">Chatbot</a>
-      <a class="btn" href="{{ url_for('submit') }}">Submit an Issue</a>
-      <a class="btn" href="{{ url_for('admin') }}">Admin View</a>
+        <h2>Village Help Desk</h2>
+        <a class="btn" href="{{ url_for('chatbot') }}">Chatbot</a>
+        <a class="btn" href="{{ url_for('submit') }}">Submit an Issue</a>
+        <a class="btn" href="{{ url_for('admin') }}">Admin View</a>
     </div>
     <!-- Add this before </body> in your templates (e.g., index.html, chatbot.html, etc.) -->
     <!-- Google Translate Element (hidden by default) -->
@@ -74,33 +82,36 @@
 
     <!-- Floating Translate Button -->
     <button id="translate-btn" title="Translate Page" style="position:fixed;bottom:30px;right:30px;z-index:1002;background:#007bff;color:#fff;border:none;border-radius:50px;padding:15px 25px;font-size:18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
-      🌐 Translate
+        🌐 Translate
     </button>
 
     <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en',
-        includedLanguages: 'en,hi,bn,gu,kn,ml,mr,pa,ta,te', // Add more as needed
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
-    }
+        document.addEventListener('DOMContentLoaded', function() {
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: 'en,hi,bn,gu,kn,ml,mr,pa,ta,te', // Add more as needed
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                }, 'google_translate_element');
+            }
 
-    document.getElementById('translate-btn').onclick = function() {
-      var el = document.getElementById('google_translate_element');
-      if (el.style.display === 'none') {
-        el.style.display = 'block';
-        if (!window.google || !window.google.translate) {
-          var s = document.createElement('script');
-          s.type = 'text/javascript';
-          s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-          document.body.appendChild(s);
-        }
-      } else {
-        el.style.display = 'none';
-      }
-    };
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.body.appendChild(s);
+
+            console.log("Translate button found:", document.getElementById('translate-btn'));
+            document.getElementById('translate-btn').onclick = function() {
+                var el = document.getElementById('google_translate_element');
+                if (el.style.display === 'none') {
+                    el.style.display = 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            };
+        });
     </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-  </body>
+</body>
+
 </html>
