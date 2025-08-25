@@ -38,8 +38,12 @@ A comprehensive Flask-based web application for village-level issue resolution w
 
 3. **Run the application**
    ```bash
-   py app.py
+   python app.py
    ```
+
+   Or use the provided scripts:
+   - **Windows Batch File**: Double-click `run_app.bat`
+   - **PowerShell Script**: Right-click `run_app.ps1` and select "Run with PowerShell"
 
 4. **Access the application**
    Open your browser and go to: `http://localhost:5000`
