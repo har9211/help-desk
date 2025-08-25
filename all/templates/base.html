@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Village Help Desk - Official Government Portal{% endblock %}</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Official Village Help Desk - Government portal for rural assistance, issue resolution, and community support services">
+    <meta name="keywords" content="village help, government services, rural development, issue resolution, chatbot assistance">
+    <meta name="author" content="Village Help Desk Administration">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Village Help Desk - Official Government Portal">
+    <meta property="og:description" content="Get assistance with village-related issues, government schemes, and community services">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.jpg') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/official-theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Additional head content -->
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="{{ url_for('home') }}" class="logo">
+                    🏛️ Village Help Desk
+                </a>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="menu-toggle d-md-none" id="menu-toggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <!-- Navigation Menu -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="{{ url_for('home') }}" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
+                    <li><a href="{{ url_for('chatbot') }}" class="nav-link {% if request.path == '/chatbot' %}active{% endif %}">Chat Assistance</a></li>
+                    <li><a href="{{ url_for('submit') }}" class="nav-link {% if request.path == '/submit' %}active{% endif %}">Submit Issue</a></li>
+                    <li><a href="{{ url_for('upload_file') }}" class="nav-link {% if request.path == '/upload' %}active{% endif %}">File Upload</a></li>
+                    <li><a href="{{ url_for('admin') }}" class="nav-link {% if request.path == '/admin' %}active{% endif %}">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        <!-- Content will be inserted here by child templates -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <!-- About Section -->
+                <div class="footer-section">
+                    <h4>About Village Help Desk</h4>
+                    <p>Official government portal dedicated to serving rural communities with comprehensive support and issue resolution services.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📧 Email</a>
+                        <a href="#" class="social-link">📞 Helpline</a>
+                        <a href="#" class="social-link">📱 WhatsApp</a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('chatbot') }}">Chat Assistance</a></li>
+                        <li>
+                            <a href="{{ url_for('submit') }}">Submit Issue</a>
+                        </li>
+                        <li><a href="{{ url_for('upload_file') }}">File Upload</a></li>
+                        <li><a href="{{ url_for('admin') }}">Admin Portal</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div class="footer-section">
+                    <h4>Our Services</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">Water Issues</a>
+                        </li>
+                        <li><a href="#">Electricity Problems</a></li>
+                        <li><a href="#">Government Schemes</a></li>
+                        <li><a href="#">Health Services</a></li>
+                        <li><a href="#">Education Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <div class="contact-info">
+                        <p>📞 Helpline: <a href="tel:+911800123456">1800-123-456</a></p>
+                        <p>📧 Email: <a href="mailto:help@villagehelpdesk.gov.in">help@villagehelpdesk.gov.in</a></p>
+                        <p>📍 Address: Government Complex, District Headquarters</p>
+                        <p>⏰ Hours: Mon-Sat, 9AM-6PM</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; 2024 Village Help Desk. All rights reserved. |
+                    <a href="#">Privacy Policy</a> |
+                    <a href="#">Terms of Service</a> |
+                    <a href="#">Accessibility</a>
+                </p>
+                <p class="footer-credits">Powered by Government of India - Rural Development Initiative</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Google Translate Element -->
+    <div id="google_translate_element" style="display:none;"></div>
+    <button id="translate-btn" title="Translate Page" class="translate-button">
+        🌐 Translate
+    </button>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/official-script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- Additional scripts -->
+    {% block extra_scripts %}{% endblock %}
+
+</body>
+
+</html>

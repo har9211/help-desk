@@ -21,6 +21,7 @@
                 <strong>You:</strong> {{ query or '' }}
             </div>
         </div>
+        <button id="translate-btn">🌐 Translate</button>
         <form method="post" class="chat-input">
             <input type="text" name="query" placeholder="Type your message..." value="{{ query or '' }}" required>
             <select name="language">

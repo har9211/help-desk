@@ -13,7 +13,12 @@ app.secret_key = 'your-secret-key-here'  # Change this in production
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx', 'doc'}
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, 
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    handlers=[
+                        logging.FileHandler("app.log"),
+                        logging.StreamHandler()
+                    ])
 logger = logging.getLogger(__name__)
 
 translator = Translator()
@@ -94,8 +99,23 @@ def allowed_file(filename):
 def home():
     return render_template('index.html')
 
+@app.route('/test')
+def test_page():
+    try:
+        conn = get_db_connection()
+        if conn:
+            return "Database connection successful!", 200
+        else:
+            return "Database connection failed!", 500
+    except Exception as e:
+        logger.error(f"Test route error: {e}")
+        return "Error occurred while testing the database connection.", 500
+def test():
+    return render_template('index.html')
+
 @app.route('/chatbot', methods=['GET', 'POST'])
 def chatbot():
+    logger.info("Chatbot route accessed.")
     response = ""
     user_input = ""
     selected_lang = request.args.get("language", "en")
