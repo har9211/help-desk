@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash # ty
 import sqlite3, os
 from chatbot import get_response
 from werkzeug.utils import secure_filename # type: ignore
-from googletrans import Translator # type: ignore
 import logging
 from datetime import datetime
 
@@ -20,8 +19,6 @@ logging.basicConfig(level=logging.INFO,
                         logging.StreamHandler()
                     ])
 logger = logging.getLogger(__name__)
-
-translator = Translator()
 
 # DB setup
 def init_db():
@@ -129,15 +126,8 @@ def chatbot():
                 # Get response from chatbot core
                 raw_response = get_response(user_input)
 
-                # Translate response based on chosen language
-                if selected_lang != "en":
-                    try:
-                        response = translator.translate(raw_response, dest=selected_lang).text
-                    except Exception as e:
-                        logger.warning(f"Translation failed: {e}")
-                        response = raw_response  # fallback if translation fails
-                else:
-                    response = raw_response
+                # Use the raw response directly (translation disabled)
+                response = raw_response
 
                 # Save chat log in DB
                 conn = get_db_connection()
