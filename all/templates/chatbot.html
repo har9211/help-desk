@@ -10,23 +10,30 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
+            <a href="{{ url_for('home') }}" class="back-btn">⬅ Back</a>
             <h2>Village Help Desk Chatbot</h2>
         </div>
         <div class="chat-window">
-            {% if response %}
-            <div class="message bot-message">
-                <strong>Bot:</strong> {{ response }}
-                <div class="speech-controls">
-                    <button class="speak-btn" data-text="{{ response }}">🔊 Speak</button>
-                    <button class="download-btn" data-text="{{ response }}">⬇️ Download</button>
-                </div>
-            </div>
-            {% endif %}
-            <div class="message user-message">
-                <strong>You:</strong> {{ query or '' }}
-            </div>
+            {% for msg in chat_history %}
+                {% if msg.sender == 'user' %}
+                    <div class="message user-message">
+                        <div class="bubble user-bubble">
+                            <span>{{ msg.text }}</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="message bot-message">
+                        <div class="bubble bot-bubble">
+                            <span>{{ msg.text }}</span>
+                            <div class="speech-controls">
+                                <button class="speak-btn" data-text="{{ msg.text }}">🔊</button>
+                                <button class="download-btn" data-text="{{ msg.text }}">⬇️</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
-        <button id="translate-btn">🌐 Translate</button>
         <form method="post" class="chat-input">
             <input type="text" name="query" placeholder="Type your message..." value="{{ query or '' }}" required>
             <select name="language">
@@ -35,7 +42,6 @@
             </select>
             <input type="submit" value="Send">
         </form>
-        <a href="{{ url_for('home') }}">⬅ Back</a>
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script>
@@ -98,6 +104,15 @@
             
         });
     </script>
+    <script>
+    // Scroll chat window to bottom on load
+    document.addEventListener('DOMContentLoaded', function() {
+        var chatWindow = document.querySelector('.chat-window');
+        if (chatWindow) {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+    });
+</script>
 </body>
 
 </html>

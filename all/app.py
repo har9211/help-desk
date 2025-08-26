@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, send_file # type: ignore
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file, session # type: ignore
 import sqlite3, os
 from chatbot import get_response
 from werkzeug.utils import secure_filename # type: ignore
@@ -137,47 +137,22 @@ def test():
 
 @app.route('/chatbot', methods=['GET', 'POST'])
 def chatbot():
-    logger.info("Chatbot route accessed.")
-    response = ""
-    user_input = ""
-    selected_lang = request.args.get("language", "en")
-    
+    if 'chat_history' not in session:
+        session['chat_history'] = []
+    chat_history = session['chat_history']
+
     if request.method == 'POST':
         user_input = request.form.get('query', '').strip()
-        selected_lang = request.form.get("language", selected_lang)
-
+        language = request.form.get('language', 'en')
         if user_input:
-            try:
-                logger.info(f"User input: {user_input}")  # Log user input
-                logger.info("Attempting to get response from chatbot.")
-                # Get response from chatbot core
-                raw_response = get_response(user_input)
+            # Add user message
+            chat_history.append({'sender': 'user', 'text': user_input})
+            # Get bot response
+            bot_response = get_response(user_input)
+            chat_history.append({'sender': 'bot', 'text': bot_response})
+            session['chat_history'] = chat_history
 
-                # Use the raw response directly (translation disabled)
-                response = raw_response
-
-                # Save chat log in DB
-                conn = get_db_connection()
-                if conn:
-                    try:
-                        c = conn.cursor()
-                        c.execute("INSERT INTO chat_logs (user_input, bot_response, language) VALUES (?, ?, ?)",
-                                  (user_input, response, selected_lang))
-                        conn.commit()
-                    except Exception as e:
-                        logger.error(f"Error saving chat log: {e}")
-                        flash("Error saving chat log.", "error")
-                    finally:
-                        conn.close()
-                else:
-                    flash("Database connection error. Chat log not saved.", "error")
-
-            except Exception as e:
-                logger.error(f"Error processing chatbot request: {e}")
-                response = "Sorry, there was an error processing your request. Please try again."
-                flash("An error occurred while processing your request.", "error")
-
-    return render_template('chatbot.html', response=response, query=user_input, language=selected_lang)
+    return render_template('chatbot.html', chat_history=chat_history)
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():

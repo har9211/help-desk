@@ -34,5 +34,38 @@
             {% endif %}
         {% endwith %}
     </div>
+
+    <!-- Google Translate Element (hidden by default) -->
+<div id="google_translate_element" style="display:none; position:fixed; bottom:80px; right:30px; z-index:1001;"></div>
+
+<!-- Floating Translate Button -->
+<button id="translate-btn" title="Translate Page" style="position:fixed;bottom:30px;right:30px;z-index:1002;background:#007bff;color:#fff;border:none;border-radius:50px;padding:15px 25px;font-size:18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+  🌐 Translate
+</button>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,hi', // Add more languages if needed
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+
+document.getElementById('translate-btn').onclick = function() {
+  var el = document.getElementById('google_translate_element');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    if (!window.google || !window.google.translate) {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      document.body.appendChild(s);
+    }
+  } else {
+    el.style.display = 'none';
+  }
+};
+</script>
 </body>
 </html>

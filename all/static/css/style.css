@@ -43,11 +43,15 @@ body.dark-mode .chat-header {
 }
 
 .chat-window {
-    flex: 1;
-    padding: 10px;
+    background: #ece5dd;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 350px;
+    max-height: 500px;
     overflow-y: auto;
-    border-bottom: 1px solid #ddd;
-    transition: border-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 body.dark-mode .chat-window {
@@ -55,15 +59,13 @@ body.dark-mode .chat-window {
 }
 
 .message {
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
 }
 
 .user-message {
-    background: #e1ffc7;
-    align-self: flex-end;
+    align-items: flex-end;
 }
 
 body.dark-mode .user-message {
@@ -71,51 +73,57 @@ body.dark-mode .user-message {
 }
 
 .bot-message {
-    background: #f1f1f1;
-    position: relative;
+    align-items: flex-start;
 }
 
 body.dark-mode .bot-message {
     background: #2a2a2a;
 }
 
+.bubble {
+    max-width: 70%;
+    padding: 10px 16px;
+    border-radius: 18px;
+    font-size: 16px;
+    position: relative;
+    word-break: break-word;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.user-bubble {
+    background: #dcf8c6;
+    color: #222;
+    border-bottom-right-radius: 4px;
+    margin-right: 5px;
+}
+
+.bot-bubble {
+    background: #fff;
+    color: #222;
+    border-bottom-left-radius: 4px;
+    margin-left: 5px;
+}
+
 .speech-controls {
-    margin-top: 10px;
+    margin-top: 6px;
     display: flex;
-    gap: 10px;
+    gap: 6px;
 }
 
 .speak-btn, .download-btn {
-    background: #0078d7;
-    color: white;
+    background: #25d366;
+    color: #fff;
     border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
     cursor: pointer;
-    font-size: 12px;
-    transition: background-color 0.3s;
+    transition: background 0.2s;
 }
 
 .speak-btn:hover, .download-btn:hover {
-    background: #0056a1;
-}
-
-.speak-btn.speaking {
-    background: #d9534f;
-}
-
-body.dark-mode .speak-btn, 
-body.dark-mode .download-btn {
-    background: #bb86fc;
-}
-
-body.dark-mode .speak-btn:hover,
-body.dark-mode .download-btn:hover {
-    background: #03dac6;
-}
-
-body.dark-mode .speak-btn.speaking {
-    background: #cf6679;
+    background: #128c7e;
 }
 
 .chat-input {
@@ -214,4 +222,27 @@ body.dark-mode a {
 
 body.dark-mode .theme-toggle {
     background: #bb86fc;
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 18px;
+    background: linear-gradient(45deg, #28a745, #6dff92);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10;
+}
+
+.back-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .back-btn {
+    background: linear-gradient(45deg, #2e7d32, #4caf50);
 }
