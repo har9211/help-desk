@@ -65,15 +65,36 @@ def init_db():
                         password TEXT NOT NULL
                     )''')
         
+        # Create emergency contacts table
+        c.execute('''CREATE TABLE IF NOT EXISTS emergency_contacts (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL,
+                        phone TEXT NOT NULL,
+                        email TEXT,
+                        description TEXT
+                    )''')
+        
         # Insert default admin if not exists
         c.execute("SELECT COUNT(*) FROM admins WHERE admin_id = 'admin'")
         if c.fetchone()[0] == 0:
             c.execute("INSERT INTO admins (admin_id, password) VALUES (?, ?)", 
                      ('admin', 'password'))  # Default password, should be changed in production
         
+        # Insert default emergency contacts if not exists
+        c.execute("SELECT COUNT(*) FROM emergency_contacts")
+        if c.fetchone()[0] == 0:
+            default_contacts = [
+                ('Emergency Ambulance', '108', '', '24x7 emergency ambulance service'),
+                ('Police Emergency', '100', '', 'Police emergency helpline'),
+                ('Fire Department', '101', '', 'Fire emergency service'),
+                ('Women Helpline', '1091', '', 'Women safety and support'),
+                ('Child Helpline', '1098', '', 'Child protection services')
+            ]
+            c.executemany("INSERT INTO emergency_contacts (name, phone, email, description) VALUES (?, ?, ?, ?)", default_contacts)
+        
         conn.commit()
         conn.close()
-        logger.info("Database initialized successfully with enhanced schema including admin table")
+        logger.info("Database initialized successfully with enhanced schema including admin and emergency contacts tables")
     except Exception as e:
         logger.error(f"Error initializing database: {e}")
 
@@ -274,6 +295,29 @@ def login():
             flash("Database connection error. Please try again.", "error")
     
     return render_template('login.html')
+
+@app.route('/emergency')
+def emergency_contacts():
+    conn = get_db_connection()
+    if not conn:
+        flash("Database connection error.", "error")
+        return render_template('emergency_contacts.html', contacts=[])
+
+    try:
+        c = conn.cursor()
+        
+        # Fetch emergency contacts
+        c.execute("SELECT * FROM emergency_contacts ORDER BY name")
+        contacts = c.fetchall()
+
+        return render_template('emergency_contacts.html', contacts=contacts)
+        
+    except Exception as e:
+        logger.error(f"Error fetching emergency contacts: {e}")
+        flash("Error loading emergency contacts.", "error")
+        return render_template('emergency_contacts.html', contacts=[])
+    finally:
+        conn.close()
 
 @app.route('/admin')
 def admin():
