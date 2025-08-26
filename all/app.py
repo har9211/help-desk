@@ -78,6 +78,18 @@ def init_db():
                         description TEXT
                     )''')
         
+        # Create users table for user authentication
+        c.execute('''CREATE TABLE IF NOT EXISTS users (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        username TEXT NOT NULL UNIQUE,
+                        password TEXT NOT NULL,
+                        email TEXT,
+                        phone TEXT,
+                        location TEXT,
+                        preferred_language TEXT DEFAULT 'en',
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )''')
+        
         # Insert default admin if not exists
         c.execute("SELECT COUNT(*) FROM admins WHERE admin_id = 'admin'")
         if c.fetchone()[0] == 0:
@@ -119,6 +131,9 @@ def allowed_file(filename):
 
 @app.route('/')
 def home():
+    # Redirect to user login if not authenticated, otherwise to dashboard
+    if 'user_id' not in session:
+        return redirect(url_for('user_login'))
     return render_template('index.html')
 
 @app.route('/test')
@@ -244,6 +259,92 @@ def upload_file():
             flash(message, "error")
     
     return render_template('upload.html', message=message)
+
+@app.route('/user_register', methods=['GET', 'POST'])
+def user_register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        location = request.form.get('location')
+        
+        # Basic validation
+        if not username or not password:
+            flash("Username and password are required.", "error")
+            return render_template('user_register.html')
+        
+        conn = get_db_connection()
+        if conn:
+            try:
+                c = conn.cursor()
+                
+                # Check if username already exists
+                c.execute("SELECT * FROM users WHERE username = ?", (username,))
+                existing_user = c.fetchone()
+                
+                if existing_user:
+                    flash("Username already exists. Please choose a different one.", "error")
+                    return render_template('user_register.html')
+                
+                # Insert new user
+                c.execute('''INSERT INTO users (username, password, email, phone, location) 
+                            VALUES (?, ?, ?, ?, ?)''',
+                          (username, password, email or None, phone or None, location or None))
+                conn.commit()
+                
+                flash("Registration successful! You can now login.", "success")
+                return redirect(url_for('user_login'))
+                
+            except Exception as e:
+                logger.error(f"Error during registration: {e}")
+                flash("An error occurred during registration. Please try again.", "error")
+            finally:
+                conn.close()
+        else:
+            flash("Database connection error. Please try again.", "error")
+    
+    return render_template('user_register.html')
+
+@app.route('/user_login', methods=['GET', 'POST'])
+def user_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        logger.info(f"Login attempt with Username: {username}")
+        
+        # Check credentials against database
+        conn = get_db_connection()
+        if conn:
+            try:
+                c = conn.cursor()
+                c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
+                user = c.fetchone()
+                
+                if user:
+                    # Successful login - set session and redirect
+                    session['user_id'] = user['id']
+                    session['username'] = user['username']
+                    flash("Login successful!", "success")
+                    return redirect(url_for('home'))  # Redirect to home or user dashboard
+                else:
+                    flash("Invalid credentials. Please try again.", "error")
+            except Exception as e:
+                logger.error(f"Error during login: {e}")
+                flash("An error occurred during login. Please try again.", "error")
+            finally:
+                conn.close()
+        else:
+            flash("Database connection error. Please try again.", "error")
+    
+    return render_template('user_login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash("You have been logged out successfully.", "success")
+    return redirect(url_for('user_login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
