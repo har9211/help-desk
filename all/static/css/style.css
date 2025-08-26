@@ -72,10 +72,50 @@ body.dark-mode .user-message {
 
 .bot-message {
     background: #f1f1f1;
+    position: relative;
 }
 
 body.dark-mode .bot-message {
     background: #2a2a2a;
+}
+
+.speech-controls {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.speak-btn, .download-btn {
+    background: #0078d7;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s;
+}
+
+.speak-btn:hover, .download-btn:hover {
+    background: #0056a1;
+}
+
+.speak-btn.speaking {
+    background: #d9534f;
+}
+
+body.dark-mode .speak-btn, 
+body.dark-mode .download-btn {
+    background: #bb86fc;
+}
+
+body.dark-mode .speak-btn:hover,
+body.dark-mode .download-btn:hover {
+    background: #03dac6;
+}
+
+body.dark-mode .speak-btn.speaking {
+    background: #cf6679;
 }
 
 .chat-input {

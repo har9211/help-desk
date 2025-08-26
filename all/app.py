@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, flash # type: ignore
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file # type: ignore
 import sqlite3, os
 from chatbot import get_response
 from werkzeug.utils import secure_filename # type: ignore
 import logging
 from datetime import datetime
+import tempfile
+from gtts import gTTS
+import io
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -62,7 +65,8 @@ def init_db():
         c.execute('''CREATE TABLE IF NOT EXISTS admins (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         admin_id TEXT NOT NULL UNIQUE,
-                        password TEXT NOT NULL
+                        password TEXT NOT NULL,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )''')
         
         # Insert default admin if not exists
@@ -123,6 +127,8 @@ def chatbot():
 
         if user_input:
             try:
+                logger.info(f"User input: {user_input}")  # Log user input
+                logger.info("Attempting to get response from chatbot.")
                 # Get response from chatbot core
                 raw_response = get_response(user_input)
 
@@ -313,6 +319,35 @@ def not_found(e):
 @app.errorhandler(500)
 def internal_error(e):
     return render_template('500.html'), 500
+
+@app.route('/text-to-speech')
+def text_to_speech():
+    """Generate speech audio from text"""
+    text = request.args.get('text', '')
+    lang = request.args.get('lang', 'en')
+    
+    if not text:
+        return "No text provided", 400
+    
+    try:
+        # Create text-to-speech audio
+        tts = gTTS(text=text, lang=lang, slow=False)
+        
+        # Create in-memory file
+        audio_file = io.BytesIO()
+        tts.write_to_fp(audio_file)
+        audio_file.seek(0)
+        
+        return send_file(
+            audio_file,
+            mimetype='audio/mpeg',
+            as_attachment=True,
+            download_name='speech.mp3'
+        )
+        
+    except Exception as e:
+        logger.error(f"Text-to-speech error: {e}")
+        return "Error generating speech", 500
 
 if __name__ == '__main__':
     # Create uploads directory if it doesn't exist

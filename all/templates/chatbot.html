@@ -4,6 +4,7 @@
 <head>
     <title>Chatbot Help</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
 </head>
 
 <body>
@@ -15,6 +16,10 @@
             {% if response %}
             <div class="message bot-message">
                 <strong>Bot:</strong> {{ response }}
+                <div class="speech-controls">
+                    <button class="speak-btn" data-text="{{ response }}">🔊 Speak</button>
+                    <button class="download-btn" data-text="{{ response }}">⬇️ Download</button>
+                </div>
             </div>
             {% endif %}
             <div class="message user-message">
@@ -33,6 +38,66 @@
         <a href="{{ url_for('home') }}">⬅ Back</a>
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Text-to-speech functionality
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = document.querySelector('select[name="language"]').value;
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                
+                // Stop any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                // Speak the text
+                window.speechSynthesis.speak(utterance);
+                
+                // Update button text while speaking
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '⏹️ Stop';
+                button.classList.add('speaking');
+                
+                utterance.onend = function() {
+                    button.textContent = originalText;
+                    button.classList.remove('speaking');
+                };
+                
+            } else {
+                alert('Text-to-speech is not supported in your browser.');
+            }
+        }
+        
+        function downloadSpeech(text) {
+            const lang = document.querySelector('select[name="language"]').value;
+            const url = `/text-to-speech?text=${encodeURIComponent(text)}&lang=${lang}`;
+            window.open(url, '_blank');
+        }
+        
+        // Add event listeners to speech buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.speak-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    speakText(this.getAttribute('data-text'));
+                });
+            });
+            
+            document.querySelectorAll('.download-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    downloadSpeech(this.getAttribute('data-text'));
+                });
+            });
+        });
+        
+        // Stop speech when leaving the page
+        window.addEventListener('beforeunload', function() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            
+        });
+    </script>
 </body>
 
 </html>
