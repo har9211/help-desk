@@ -1,0 +1,74 @@
+{
+  "name": "Issue",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Brief description of the issue"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the problem"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "water_supply",
+        "electricity",
+        "roads",
+        "sanitation",
+        "healthcare",
+        "education",
+        "agriculture",
+        "other"
+      ],
+      "description": "Issue category"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "default": "medium",
+      "description": "Issue priority level"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "submitted",
+        "in_review",
+        "in_progress",
+        "resolved",
+        "closed"
+      ],
+      "default": "submitted",
+      "description": "Current status of the issue"
+    },
+    "contact_phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "location": {
+      "type": "string",
+      "description": "Location where the issue exists"
+    },
+    "admin_response": {
+      "type": "string",
+      "description": "Response from admin/government official"
+    },
+    "resolved_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date when issue was resolved"
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "category",
+    "contact_phone"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "name": "News",
+  "type": "object",
+  "properties": {
+    "headline": {
+      "type": "string",
+      "description": "News headline"
+    },
+    "content": {
+      "type": "string",
+      "description": "Full news content"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "local",
+        "state",
+        "national",
+        "agriculture",
+        "education",
+        "health",
+        "government"
+      ],
+      "description": "News category"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "News image URL"
+    },
+    "source": {
+      "type": "string",
+      "description": "News source"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is featured news"
+    }
+  },
+  "required": [
+    "headline",
+    "content",
+    "category"
+  ]
+}

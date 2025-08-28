@@ -1,0 +1,65 @@
+{
+  "name": "Job",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Job title"
+    },
+    "company": {
+      "type": "string",
+      "description": "Company or organization name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Job description and requirements"
+    },
+    "location": {
+      "type": "string",
+      "description": "Job location"
+    },
+    "job_type": {
+      "type": "string",
+      "enum": [
+        "government",
+        "private",
+        "ngo",
+        "self_employment"
+      ],
+      "description": "Type of job"
+    },
+    "experience_required": {
+      "type": "string",
+      "description": "Required experience"
+    },
+    "education_required": {
+      "type": "string",
+      "description": "Education requirements"
+    },
+    "salary_range": {
+      "type": "string",
+      "description": "Salary range"
+    },
+    "application_deadline": {
+      "type": "string",
+      "format": "date",
+      "description": "Application deadline"
+    },
+    "contact_info": {
+      "type": "string",
+      "description": "Contact information for applications"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the job is still active"
+    }
+  },
+  "required": [
+    "title",
+    "company",
+    "description",
+    "location",
+    "job_type"
+  ]
+}
