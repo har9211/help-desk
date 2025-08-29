@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Village Help Desk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c5aa0;
+            --secondary: #3a7a5f;
+            --accent: #d9a62e;
+            --light: #f5f7fa;
+            --dark: #2c3e50;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 0 1rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.3rem;
+            margin-top: 10px;
+        }
+
+        .admin-profile {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .admin-profile img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+        }
+
+        .admin-profile h3 {
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .admin-profile p {
+            color: #ddd;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            color: #ddd;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 5px;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification {
+            position: relative;
+        }
+
+        .notification span {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .bg-primary { background: rgba(44, 90, 160, 0.2); color: var(--primary); }
+        .bg-success { background: rgba(40, 167, 69, 0.2); color: var(--success); }
+        .bg-warning { background: rgba(255, 193, 7, 0.2); color: var(--warning); }
+        .bg-danger { background: rgba(220, 53, 69, 0.2); color: var(--danger); }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-in-progress { background: #cce5ff; color: #004085; }
+        .status-resolved { background: #d4edda; color: #155724; }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 0.8rem;
+        }
+
+        .btn-view { background: var(--primary); color: white; }
+        .btn-edit { background: var(--warning); color: black; }
+        .btn-delete { background: var(--danger); color: white; }
+
+        /* Charts */
+        .charts {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                overflow: visible;
+            }
+            .sidebar-header h2, .admin-profile, .sidebar-menu span {
+                display: none;
+            }
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 15px;
+            }
+            .sidebar-menu i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .charts {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            .search-bar {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-hands-helping fa-2x"></i>
+            <h2>Village Help Desk</h2>
+        </div>
+        
+        <div class="admin-profile">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Admin">
+            <h3>Rajesh Kumar</h3>
+            <p>Administrator</p>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+            <li><a href="#"><i class="fas fa-exclamation-circle"></i> <span>Issue Management</span></a></li>
+            <li><a href="#"><i class="fas fa-users"></i> <span>User Management</span></a></li>
+            <li><a href="#"><i class="fas fa-store"></i> <span>Marketplace</span></a></li>
+            <li><a href="#"><i class="fas fa-newspaper"></i> <span>News & Updates</span></a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> <span>Analytics</span></a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            
+            <div class="user-actions">
+                <div class="notification">
+                    <i class="fas fa-bell fa-lg"></i>
+                    <span>5</span>
+                </div>
+                <div class="user">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=40&q=80" alt="User" style="width: 40px; height: 40px; border-radius: 50%;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+            <div class="card stat-card">
+                <div class="stat-icon bg-primary">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>142</h3>
+                    <p>Total Issues</p>
+                </div>
+            </div>
+            
+            <div class="card stat-card">
+                <div class="stat-icon bg-warning">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>28</h3>
+                    <p>Pending Issues</p>
+                </div>
+            </div>
+            
+            <div class="card stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>95</h3>
+                    <p>Resolved Issues</p>
+                </div>
+            </div>
+            
+            <div class="card stat-card">
+                <div class="stat-icon bg-danger">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>524</h3>
+                    <p>Registered Users</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Issues Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Recent Issues</h2>
+                <button class="btn btn-primary">Export Report</button>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Issue ID</th>
+                        <th>Category</th>
+                        <th>Submitted By</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#ISS-001</td>
+                        <td>Road Maintenance</td>
+                        <td>Vikram Singh</td>
+                        <td>12 Aug 2023</td>
+                        <td><span class="status status-in-progress">In Progress</span></td>
+                        <td>
+                            <button class="action-btn btn-view"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn btn-edit"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#ISS-002</td>
+                        <td>Water Supply</td>
+                        <td>Meena Sharma</td>
+                        <td>11 Aug 2023</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td>
+                            <button class="action-btn btn-view"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn btn-edit"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#ISS-003</td>
+                        <td>Electricity</td>
+                        <td>Rahul Verma</td>
+                        <td>10 Aug 2023</td>
+                        <td><span class="status status-resolved">Resolved</span></td>
+                        <td>
+                            <button class="action-btn btn-view"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn btn-edit"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#ISS-004</td>
+                        <td>Waste Management</td>
+                        <td>Priya Patel</td>
+                        <td>09 Aug 2023</td>
+                        <td><span class="status status-in-progress">In Progress</span></td>
+                        <td>
+                            <button class="action-btn btn-view"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn btn-edit"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#ISS-005</td>
+                        <td>Education</td>
+                        <td>Anjali Gupta</td>
+                        <td>08 Aug 2023</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td>
+                            <button class="action-btn btn-view"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn btn-edit"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts">
+            <div class="chart-container">
+                <h2>Issues by Category</h2>
+                <div style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; margin-top: 15px; border-radius: 8px;">
+                    <p>Bar chart visualization would appear here</p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h2>Status Distribution</h2>
+                <div style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; margin-top: 15px; border-radius: 8px;">
+                    <p>Pie chart visualization would appear here</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Simple functionality for demonstration
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle for mobile
+            const sidebarToggle = document.createElement('div');
+            sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            sidebarToggle.style.position = 'fixed';
+            sidebarToggle.style.bottom = '20px';
+            sidebarToggle.style.right = '20px';
+            sidebarToggle.style.backgroundColor = 'var(--primary)';
+            sidebarToggle.style.color = 'white';
+            sidebarToggle.style.width = '50px';
+            sidebarToggle.style.height = '50px';
+            sidebarToggle.style.borderRadius = '50%';
+            sidebarToggle.style.display = 'flex';
+            sidebarToggle.style.justifyContent = 'center';
+            sidebarToggle.style.alignItems = 'center';
+            sidebarToggle.style.cursor = 'pointer';
+            sidebarToggle.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+            sidebarToggle.style.zIndex = '1000';
+            sidebarToggle.style.display = 'none';
+            
+            document.body.appendChild(sidebarToggle);
+            
+            // Check if mobile view
+            function checkWidth() {
+                if (window.innerWidth <= 992) {
+                    sidebarToggle.style.display = 'flex';
+                } else {
+                    sidebarToggle.style.display = 'none';
+                }
+            }
+            
+            // Initial check
+            checkWidth();
+            
+            // Listen for resize events
+            window.addEventListener('resize', checkWidth);
+            
+            // Toggle sidebar
+            sidebarToggle.addEventListener('click', function() {
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar.style.width === '70px' || sidebar.style.width === '') {
+                    sidebar.style.width = '250px';
+                } else {
+                    sidebar.style.width = '70px';
+                }
+            });
+            
+            // Table row click event
+            const tableRows = document.querySelectorAll('table tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'I') {
+                        this.style.backgroundColor = '#f0f0f0';
+                        setTimeout(() => {
+                            this.style.backgroundColor = '';
+                        }, 300);
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="admin.js"></script>
+</body>
+</html>
