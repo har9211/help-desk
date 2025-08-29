@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +13,8 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        :root {
+        
+         :root {
             --primary: #2c5aa0;
             --secondary: #3a7a5f;
             --accent: #d9a62e;
@@ -23,21 +24,21 @@
             --warning: #ffc107;
             --danger: #dc3545;
         }
-
+        
         body {
             background-color: #f0f2f5;
             color: #333;
             line-height: 1.6;
         }
-
+        
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 15px;
         }
-
         /* Header Styles */
+        
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -47,33 +48,33 @@
             top: 0;
             z-index: 100;
         }
-
+        
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
+        
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
+        
         .logo i {
             font-size: 2rem;
         }
-
+        
         .logo h1 {
             font-size: 1.5rem;
         }
-
+        
         nav ul {
             display: flex;
             list-style: none;
             gap: 20px;
         }
-
+        
         nav a {
             color: white;
             text-decoration: none;
@@ -82,16 +83,16 @@
             border-radius: 4px;
             transition: background 0.3s;
         }
-
+        
         nav a:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-
+        
         .user-actions {
             display: flex;
             gap: 10px;
         }
-
+        
         .btn {
             padding: 8px 16px;
             border: none;
@@ -100,19 +101,19 @@
             font-weight: 500;
             transition: all 0.3s;
         }
-
+        
         .btn-primary {
             background-color: var(--accent);
             color: white;
         }
-
+        
         .btn-outline {
             background-color: transparent;
             border: 1px solid white;
             color: white;
         }
-
         /* Hero Section */
+        
         .hero {
             background: url('https://images.unsplash.com/photo-1517486808906-6ca8b3f8e1c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
             padding: 4rem 0;
@@ -120,7 +121,7 @@
             text-align: center;
             position: relative;
         }
-
+        
         .hero::before {
             content: '';
             position: absolute;
@@ -130,40 +131,40 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
         }
-
+        
         .hero-content {
             position: relative;
             z-index: 1;
         }
-
+        
         .hero h2 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
-
+        
         .hero p {
             font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto 2rem;
         }
-
         /* Services Grid */
+        
         .services {
             padding: 4rem 0;
         }
-
+        
         .section-title {
             text-align: center;
             margin-bottom: 2rem;
             color: var(--primary);
         }
-
+        
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
-
+        
         .service-card {
             background: white;
             border-radius: 8px;
@@ -173,28 +174,28 @@
             text-align: center;
             padding: 20px;
         }
-
+        
         .service-card:hover {
             transform: translateY(-5px);
         }
-
+        
         .service-card i {
             font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 15px;
         }
-
+        
         .service-card h3 {
             margin-bottom: 10px;
             color: var(--dark);
         }
-
         /* Chatbot */
+        
         .chatbot {
             background: white;
             padding: 3rem 0;
         }
-
+        
         .chat-container {
             max-width: 800px;
             margin: 0 auto;
@@ -202,48 +203,50 @@
             border-radius: 8px;
             overflow: hidden;
         }
-
+        
         .chat-header {
             background: var(--primary);
             color: white;
             padding: 15px;
             text-align: center;
         }
-
+        
         .chat-messages {
             height: 300px;
             padding: 15px;
             overflow-y: auto;
             background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
         }
-
+        
         .message {
             margin-bottom: 15px;
             padding: 10px 15px;
             border-radius: 20px;
             max-width: 80%;
         }
-
+        
         .bot {
             background: #e6f7ff;
             align-self: flex-start;
             border-bottom-left-radius: 5px;
         }
-
+        
         .user {
             background: #dcf8c6;
             align-self: flex-end;
             margin-left: auto;
             border-bottom-right-radius: 5px;
         }
-
+        
         .chat-input {
             display: flex;
             padding: 15px;
             background: white;
             border-top: 1px solid #ddd;
         }
-
+        
         .chat-input input {
             flex: 1;
             padding: 10px;
@@ -251,7 +254,7 @@
             border-radius: 20px;
             outline: none;
         }
-
+        
         .chat-input button {
             margin-left: 10px;
             background: var(--primary);
@@ -262,51 +265,51 @@
             height: 40px;
             cursor: pointer;
         }
-
         /* Footer */
+        
         footer {
             background: var(--dark);
             color: white;
             padding: 2rem 0;
             margin-top: 2rem;
         }
-
+        
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 30px;
         }
-
+        
         .footer-section h3 {
             margin-bottom: 15px;
             font-size: 1.2rem;
         }
-
+        
         .footer-section ul {
             list-style: none;
         }
-
+        
         .footer-section li {
             margin-bottom: 10px;
         }
-
+        
         .footer-section a {
             color: #ddd;
             text-decoration: none;
         }
-
+        
         .footer-section a:hover {
             color: white;
         }
-
+        
         .footer-bottom {
             text-align: center;
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         /* Modal */
+        
         .modal {
             display: none;
             position: fixed;
@@ -319,7 +322,7 @@
             justify-content: center;
             align-items: center;
         }
-
+        
         .modal-content {
             background: white;
             padding: 2rem;
@@ -327,57 +330,55 @@
             width: 90%;
             max-width: 500px;
         }
-
+        
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
         }
-
+        
         .close {
             font-size: 1.5rem;
             cursor: pointer;
         }
-
+        
         .form-group {
             margin-bottom: 1rem;
         }
-
+        
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
         }
-
+        
         .form-group input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
-
         /* Responsive Design */
+        
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 gap: 15px;
             }
-            
             nav ul {
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            
             .hero h2 {
                 font-size: 2rem;
             }
-            
             .hero p {
                 font-size: 1rem;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -388,16 +389,19 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#services"><i class="fas fa-concierge-bell"></i> Services</a></li>
-                    <li><a href="#marketplace"><i class="fas fa-store"></i> Marketplace</a></li>
-                    <li><a href="#news"><i class="fas fa-newspaper"></i> News</a></li>
-                    <li><a href="#education"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="issue-submission.html"><i class="fas fa-exclamation-circle"></i> Issues</a></li>
+                    <li><a href="marketplace.html"><i class="fas fa-store"></i> Marketplace</a></li>
+                    <li><a href="news.html"><i class="fas fa-newspaper"></i> News</a></li>
+                    <li><a href="education.html"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                    <li><a href="job.html"><i class="fas fa-briefcase"></i> Jobs</a></li>
+                    <li><a href="goverment-services.html"><i class="fas fa-landmark"></i> Government</a></li>
+                    <li><a href="chatbot.html"><i class="fas fa-robot"></i> Chatbot</a></li>
                 </ul>
             </nav>
             <div class="user-actions">
-                <button class="btn btn-outline" id="loginBtn">Login</button>
-                <button class="btn btn-primary" id="registerBtn">Register</button>
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="register.html" class="btn btn-primary">Register</a>
             </div>
         </div>
     </header>
@@ -416,45 +420,45 @@
         <div class="container">
             <h2 class="section-title">Our Services</h2>
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card" onclick="location.href='chatbot.html'">
                     <i class="fas fa-question-circle"></i>
                     <h3>Help Center</h3>
                     <p>Get answers to your questions with our interactive help system</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="location.href='issue-submission.html'">
                     <i class="fas fa-exclamation-circle"></i>
                     <h3>Issue Reporting</h3>
                     <p>Report community issues directly to local government</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="location.href='marketplace.html'">
                     <i class="fas fa-shopping-cart"></i>
                     <h3>Local Marketplace</h3>
                     <p>Buy and sell products within your community</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="location.href='news.html'">
                     <i class="fas fa-newspaper"></i>
                     <h3>News & Updates</h3>
                     <p>Stay informed with local and national news</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="location.href='education.html'">
                     <i class="fas fa-book"></i>
                     <h3>Education Center</h3>
                     <p>Access learning materials and resources</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="location.href='job.html'">
                     <i class="fas fa-briefcase"></i>
                     <h3>Job Board</h3>
                     <p>Find employment opportunities in your area</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="location.href='goverment-services.html'">
                     <i class="fas fa-landmark"></i>
                     <h3>Government Services</h3>
                     <p>Access all government services in one place</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="location.href='dashboard.html'">
                     <i class="fas fa-users"></i>
-                    <h3>Community Forum</h3>
-                    <p>Connect and discuss with fellow villagers</p>
+                    <h3>Dashboard</h3>
+                    <p>Access your personal dashboard and account</p>
                 </div>
             </div>
         </div>
@@ -498,10 +502,15 @@
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Marketplace</a></li>
-                        <li><a href="#">News</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="issue-submission.html">Issue Reporting</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="education.html">Education</a></li>
+                        <li><a href="job.html">Jobs</a></li>
+                        <li><a href="goverment-services.html">Government Services</a></li>
+                        <li><a href="chatbot.html">Chatbot</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -579,85 +588,62 @@
     </div>
 
     <script>
-        // Modal functionality
-        const loginBtn = document.getElementById('loginBtn');
-        const registerBtn = document.getElementById('registerBtn');
-        const loginModal = document.getElementById('loginModal');
-        const registerModal = document.getElementById('registerModal');
-        const closeButtons = document.querySelectorAll('.close');
+        // Unified chatbot functionality using backend API
+        const chatForm = document.querySelector('.chat-input');
+        const chatInput = document.querySelector('.chat-input input');
+        const chatMessages = document.querySelector('.chat-messages');
 
-        loginBtn.addEventListener('click', () => {
-            loginModal.style.display = 'flex';
-        });
+        chatForm.addEventListener('submit', async(e) => {
+            e.preventDefault();
+            const message = chatInput.value.trim();
+            if (!message) return;
 
-        registerBtn.addEventListener('click', () => {
-            registerModal.style.display = 'flex';
-        });
+            addMessage(message, 'user');
+            chatInput.value = '';
+            chatInput.disabled = true;
 
-        closeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                loginModal.style.display = 'none';
-                registerModal.style.display = 'none';
-            });
-        });
+            try {
+                // Call the unified backend API
+                const response = await fetch('/api/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message
+                    })
+                });
 
-        window.addEventListener('click', (e) => {
-            if (e.target === loginModal) {
-                loginModal.style.display = 'none';
-            }
-            if (e.target === registerModal) {
-                registerModal.style.display = 'none';
-            }
-        });
-
-        // Simple chatbot functionality
-        document.querySelector('.chat-input button').addEventListener('click', function() {
-            const input = document.querySelector('.chat-input input');
-            const message = input.value.trim();
-            
-            if (message) {
-                // Add user message
-                addMessage(message, 'user');
-                
-                // Clear input
-                input.value = '';
-                
-                // Simulate bot response after a short delay
-                setTimeout(() => {
-                    let botResponse = "I'm sorry, I didn't understand that. Can you please rephrase?";
-                    
-                    if (message.toLowerCase().includes('report') || message.toLowerCase().includes('issue')) {
-                        botResponse = "You can report issues through our Issue Reporting system. Go to Services > Issue Reporting to get started.";
-                    } else if (message.toLowerCase().includes('marketplace') || message.toLowerCase().includes('buy') || message.toLowerCase().includes('sell')) {
-                        botResponse = "Our marketplace allows villagers to buy and sell locally. You can find it under Services > Local Marketplace.";
-                    } else if (message.toLowerCase().includes('news') || message.toLowerCase().includes('update')) {
-                        botResponse = "Latest news and updates are available in the News section. Would you like me to take you there?";
-                    } else if (message.toLowerCase().includes('hello') || message.toLowerCase().includes('hi')) {
-                        botResponse = "Hello! How can I assist you today?";
-                    }
-                    
-                    addMessage(botResponse, 'bot');
-                }, 1000);
+                const data = await response.json();
+                if (response.ok) {
+                    addMessage(data.reply || "I'm sorry, I didn't understand that.", 'bot');
+                } else {
+                    addMessage('Error: ' + (data.message || 'Failed to get response'), 'bot');
+                }
+            } catch (error) {
+                addMessage('Network error. Please try again.', 'bot');
+            } finally {
+                chatInput.disabled = false;
+                chatInput.focus();
             }
         });
-        
+
         function addMessage(text, type) {
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message', type);
-            messageDiv.textContent = text;
-            
-            document.querySelector('.chat-messages').appendChild(messageDiv);
-            
-            // Scroll to bottom
-            document.querySelector('.chat-messages').scrollTop = document.querySelector('.chat-messages').scrollHeight;
+            messageDiv.innerHTML = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-        
+
         // Allow pressing Enter to send message
-        document.querySelector('.chat-input input').addEventListener('keypress', function(e) {
+        chatInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                document.querySelector('.chat-input button').click();
+                chatForm.dispatchEvent(new Event('submit'));
             }
         });
     </script>
+
 </body>
+
 </html>
