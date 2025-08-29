@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,20 +14,24 @@
             margin: 0;
             padding: 20px;
         }
+        
         .container {
             max-width: 900px;
             margin: 0 auto;
         }
+        
         h1 {
             color: #2c5aa0;
             margin-bottom: 20px;
         }
+        
         .categories {
             margin-bottom: 20px;
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
+        
         .category-btn {
             background-color: #d9a62e;
             color: #2c3e50;
@@ -37,38 +42,90 @@
             font-weight: 600;
             transition: background-color 0.3s;
         }
+        
         .category-btn.active,
         .category-btn:hover {
             background-color: #b38a1f;
         }
+        
         .news-list {
             list-style: none;
             padding: 0;
         }
+        
         .news-item {
             background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 15px 20px;
             margin-bottom: 15px;
             display: flex;
             flex-direction: column;
         }
+        
         .news-title {
             font-weight: 700;
             color: #2c5aa0;
             margin-bottom: 8px;
         }
+        
         .news-date {
             font-size: 0.9rem;
             color: #666;
             margin-bottom: 10px;
         }
+        
         .news-content {
             color: #333;
         }
+        /* News Sources Styling */
+        
+        .news-sources {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .news-sources h3 {
+            color: #2c5aa0;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .source-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .source-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background-color: #2c5aa0;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 500;
+        }
+        
+        .source-link:hover {
+            background-color: #1e3d73;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .source-link i {
+            font-size: 1.1rem;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>News & Updates</h1>
@@ -78,6 +135,23 @@
             <button class="category-btn" data-category="national">National</button>
             <button class="category-btn" data-category="community">Community</button>
         </div>
+
+        <!-- Popular News Sources Section -->
+        <div class="news-sources">
+            <h3>Popular News Sources</h3>
+            <div class="source-links">
+                <a href="https://www.aajtak.in/" target="_blank" rel="noopener noreferrer" class="source-link">
+                    <i class="fas fa-newspaper"></i> Aaj Tak
+                </a>
+                <a href="https://timesofindia.indiatimes.com/" target="_blank" rel="noopener noreferrer" class="source-link">
+                    <i class="fas fa-globe"></i> Times of India
+                </a>
+                <a href="https://www.bhaskar.com/" target="_blank" rel="noopener noreferrer" class="source-link">
+                    <i class="fas fa-book-open"></i> Dainik Bhaskar
+                </a>
+            </div>
+        </div>
+
         <ul class="news-list" id="newsList">
             <!-- News articles will be loaded here -->
         </ul>
@@ -150,4 +224,5 @@
         loadNews();
     </script>
 </body>
+
 </html>

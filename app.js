@@ -41,9 +41,7 @@ app.use(limiter);
 
 // CORS configuration
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? ['https://yourdomain.com'] 
-        : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: process.env.NODE_ENV === 'production' ? ['https://yourdomain.com'] : ['http://localhost:3000', 'http://127.0.0.1:3000'],
     credentials: true
 }));
 
@@ -84,6 +82,9 @@ app.use('/api/education', educationRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/government', governmentRoutes);
 
+const chatbotRoutes = require('./routes/chatbot');
+app.use('/api/chatbot', chatbotRoutes);
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({
@@ -102,19 +103,18 @@ app.get('*', (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Error:', err.stack);
-    
+
     if (err.type === 'entity.parse.failed') {
         return res.status(400).json({
             success: false,
             message: 'Invalid JSON payload'
         });
     }
-    
+
     res.status(500).json({
         success: false,
-        message: process.env.NODE_ENV === 'production' 
-            ? 'Internal server error' 
-            : err.message
+        message: process.env.NODE_ENV === 'production' ?
+            'Internal server error' : err.message
     });
 });
 
@@ -131,7 +131,7 @@ app.listen(PORT, () => {
     console.log(`🚀 Village Help Desk server running on port ${PORT}`);
     console.log(`📱 Local: http://localhost:${PORT}`);
     console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-    
+
     // Log available endpoints
     console.log('\n📋 Available API Endpoints:');
     console.log('   GET    /api/health          - Health check');
@@ -148,6 +148,8 @@ app.listen(PORT, () => {
     console.log('   GET    /api/education       - Education materials');
     console.log('   GET    /api/jobs            - Job listings');
     console.log('   GET    /api/government      - Government services');
+    console.log('   POST   /api/chatbot         - Chatbot interaction');
+    console.log('   GET    /api/chatbot/health  - Chatbot health check');
 });
 
 // Graceful shutdown
