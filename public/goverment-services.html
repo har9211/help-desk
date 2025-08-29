@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Government Services - Village Help Desk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c5aa0;
+            margin-bottom: 20px;
+        }
+        .filter-bar {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background-color: #d9a62e;
+            color: #2c3e50;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .filter-btn.active,
+        .filter-btn:hover {
+            background-color: #b38a1f;
+        }
+        .service-list {
+            list-style: none;
+            padding: 0;
+        }
+        .service-item {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-title {
+            font-weight: 700;
+            color: #2c5aa0;
+            margin-bottom: 8px;
+        }
+        .service-description {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Government Services Directory</h1>
+        <div class="filter-bar" id="filterBar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="health">Health</button>
+            <button class="filter-btn" data-filter="education">Education</button>
+            <button class="filter-btn" data-filter="utilities">Utilities</button>
+            <button class="filter-btn" data-filter="social">Social</button>
+        </div>
+        <ul class="service-list" id="serviceList">
+            <!-- Government services will be loaded here -->
+        </ul>
+    </div>
+
+    <script>
+        const serviceList = document.getElementById('serviceList');
+        const filterBar = document.getElementById('filterBar');
+        let services = [];
+
+        async function loadServices() {
+            try {
+                const response = await fetch('/api/government');
+                const data = await response.json();
+                if (response.ok) {
+                    services = data.data || [];
+                    renderServices('all');
+                } else {
+                    serviceList.innerHTML = '<li>Failed to load government services.</li>';
+                }
+            } catch (error) {
+                serviceList.innerHTML = '<li>Network error. Please try again.</li>';
+            }
+        }
+
+        function renderServices(filter) {
+            serviceList.innerHTML = '';
+            let filtered = services;
+            if (filter !== 'all') {
+                filtered = services.filter(service => service.category === filter);
+            }
+            if (filtered.length === 0) {
+                serviceList.innerHTML = '<li>No services found.</li>';
+                return;
+            }
+            filtered.forEach(service => {
+                const li = document.createElement('li');
+                li.className = 'service-item';
+
+                const title = document.createElement('div');
+                title.className = 'service-title';
+                title.textContent = service.name;
+
+                const description = document.createElement('div');
+                description.className = 'service-description';
+                description.textContent = service.description || '';
+
+                li.appendChild(title);
+                li.appendChild(description);
+
+                serviceList.appendChild(li);
+            });
+        }
+
+        filterBar.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                const filter = e.target.getAttribute('data-filter');
+                renderServices(filter);
+            }
+        });
+
+        // Initialize
+        loadServices();
+    </script>
+</body>
+</html>

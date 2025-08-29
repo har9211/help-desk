@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>News & Updates - Village Help Desk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c5aa0;
+            margin-bottom: 20px;
+        }
+        .categories {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .category-btn {
+            background-color: #d9a62e;
+            color: #2c3e50;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .category-btn.active,
+        .category-btn:hover {
+            background-color: #b38a1f;
+        }
+        .news-list {
+            list-style: none;
+            padding: 0;
+        }
+        .news-item {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .news-title {
+            font-weight: 700;
+            color: #2c5aa0;
+            margin-bottom: 8px;
+        }
+        .news-date {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .news-content {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>News & Updates</h1>
+        <div class="categories" id="categories">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="local">Local</button>
+            <button class="category-btn" data-category="national">National</button>
+            <button class="category-btn" data-category="community">Community</button>
+        </div>
+        <ul class="news-list" id="newsList">
+            <!-- News articles will be loaded here -->
+        </ul>
+    </div>
+
+    <script>
+        const newsList = document.getElementById('newsList');
+        const categories = document.getElementById('categories');
+        let newsArticles = [];
+
+        async function loadNews() {
+            try {
+                const response = await fetch('/api/news');
+                const data = await response.json();
+                if (response.ok) {
+                    newsArticles = data.data || [];
+                    renderNews('all');
+                } else {
+                    newsList.innerHTML = '<li>Failed to load news articles.</li>';
+                }
+            } catch (error) {
+                newsList.innerHTML = '<li>Network error. Please try again.</li>';
+            }
+        }
+
+        function renderNews(category) {
+            newsList.innerHTML = '';
+            let filtered = newsArticles;
+            if (category !== 'all') {
+                filtered = newsArticles.filter(article => article.category === category);
+            }
+            if (filtered.length === 0) {
+                newsList.innerHTML = '<li>No news articles found.</li>';
+                return;
+            }
+            filtered.forEach(article => {
+                const li = document.createElement('li');
+                li.className = 'news-item';
+
+                const title = document.createElement('div');
+                title.className = 'news-title';
+                title.textContent = article.title;
+
+                const date = document.createElement('div');
+                date.className = 'news-date';
+                date.textContent = new Date(article.publishedAt).toLocaleDateString();
+
+                const content = document.createElement('div');
+                content.className = 'news-content';
+                content.textContent = article.summary || article.content || '';
+
+                li.appendChild(title);
+                li.appendChild(date);
+                li.appendChild(content);
+
+                newsList.appendChild(li);
+            });
+        }
+
+        categories.addEventListener('click', (e) => {
+            if (e.target.classList.contains('category-btn')) {
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                const category = e.target.getAttribute('data-category');
+                renderNews(category);
+            }
+        });
+
+        // Initialize
+        loadNews();
+    </script>
+</body>
+</html>
