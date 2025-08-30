@@ -1,178 +1,167 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Report Issue - Village Help Desk</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <title>Submit Issue</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Gradient background */
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #6a85b6);
+            background-size: 200% 200%;
+            animation: gradientMove 12s ease infinite;
         }
+        
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        /* Container */
+        
         .container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: #ffffff;
+            /* Contrast to dark background */
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0px 8px 22px rgba(0, 0, 0, 0.35);
+            width: 380px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        h1 {
-            color: #2c5aa0;
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 12px 28px rgba(0, 0, 0, 0.45);
+        }
+        
+        .container h2 {
             margin-bottom: 20px;
+            color: #2a5298;
+            font-size: 24px;
         }
-        form .form-group {
-            margin-bottom: 15px;
-        }
-        form label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        form input[type="text"],
-        form input[type="email"],
-        form textarea,
-        form select {
+        /* Input box */
+        
+        .container input[type="text"] {
             width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        form input[type="text"]:focus,
-        form input[type="email"]:focus,
-        form textarea:focus,
-        form select:focus {
-            border-color: #2c5aa0;
-            outline: none;
-        }
-        form textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        .btn-submit {
-            background-color: #d9a62e;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn-submit:hover {
-            background-color: #b38a1f;
-        }
-        .alert {
             padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .container input[type="text"]:focus {
+            border: 1px solid #2a5298;
+            box-shadow: 0px 4px 10px rgba(42, 82, 152, 0.3);
+            transform: scale(1.02);
+        }
+        /* Submit button */
+        
+        .container input[type="submit"] {
+            background: linear-gradient(45deg, #0077cc, #00c6ff);
+            background-size: 200% 200%;
+            animation: gradientButton 6s ease infinite;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .container input[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.25);
+        }
+        
+        @keyframes gradientButton {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        /* Response text */
+        
+        .container p {
+            margin-top: 20px;
+            color: #333;
+            background: #f4f4f4;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        
+        .container p:hover {
+            background: #eaf2ff;
+        }
+        /* Back button */
+        
+        .container a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 18px;
+            background: linear-gradient(45deg, #28a745, #6dff92);
+            color: white;
+            text-decoration: none;
             border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .alert-success {
-            background: #e6f7e6;
-            color: #28a745;
-            border: 1px solid #c3e6cb;
-        }
-        .alert-error {
-            background: #f8d7da;
-            color: #dc3545;
-            border: 1px solid #f5c6cb;
+        
+        .container a:hover {
+            transform: scale(1.08);
+            box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
+
 <body>
+    <a href="/">Back</a>
+    <a href="/" class="back-btn">⬅ Back</a>
     <div class="container">
-        <h1>Report an Issue</h1>
-        <div id="alertBox" class="alert"></div>
-        <form id="issueForm">
-            <div class="form-group">
-                <label for="title">Issue Title</label>
-                <input type="text" id="title" name="title" placeholder="Briefly describe the issue" required />
-            </div>
-            <div class="form-group">
-                <label for="description">Detailed Description</label>
-                <textarea id="description" name="description" placeholder="Provide detailed information about the issue" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="location">Location</label>
-                <input type="text" id="location" name="location" placeholder="Where is the issue located?" required />
-            </div>
-            <div class="form-group">
-                <label for="category">Category</label>
-                <select id="category" name="category" required>
-                    <option value="">Select category</option>
-                    <option value="road">Road</option>
-                    <option value="water">Water</option>
-                    <option value="electricity">Electricity</option>
-                    <option value="sanitation">Sanitation</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <button type="submit" class="btn-submit">Submit Issue</button>
-        </form>
+
+        <h2>Submit Your Issue</h2>
+        <form method="post">
+            <input type="text" name="name" placeholder="Your Name"><br>
+            <textarea name="issue" placeholder="Describe your issue"></textarea><br>
+            <input type="submit" value="Submit">
+            <!-- <input type="submit" value="Submit"> -->
+
+
+            <h2>Upload a File</h2>
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <input type="submit" value="Upload">
+            </form>
+
+
     </div>
+    </form>
 
-    <script>
-        const issueForm = document.getElementById('issueForm');
-        const alertBox = document.getElementById('alertBox');
-        const token = localStorage.getItem('userToken');
-
-        issueForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            alertBox.style.display = 'none';
-            const formData = {
-                title: document.getElementById('title').value.trim(),
-                description: document.getElementById('description').value.trim(),
-                location: document.getElementById('location').value.trim(),
-                category: document.getElementById('category').value
-            };
-
-            if (!formData.title || !formData.description || !formData.location || !formData.category) {
-                showAlert('Please fill in all required fields.', 'error');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/issues', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    showAlert('Issue reported successfully!', 'success');
-                    issueForm.reset();
-                } else {
-                    showAlert(data.message || 'Failed to report issue.', 'error');
-                }
-            } catch (error) {
-                showAlert('Network error. Please try again.', 'error');
-            }
-        });
-
-        function showAlert(message, type) {
-            alertBox.textContent = message;
-            alertBox.className = `alert alert-${type}`;
-            alertBox.style.display = 'block';
-        }
-
-        // Redirect to login if not authenticated
-        if (!token) {
-            window.location.href = 'login.html';
-        }
-    </script>
 </body>
+
 </html>
