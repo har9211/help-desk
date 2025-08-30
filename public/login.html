@@ -289,11 +289,17 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Login successful
-                    showAlert('Login successful! Redirecting...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 2000);
+                    // Login successful - store token and redirect
+                    if (data.data && data.data.token) {
+                        // Store the token in localStorage
+                        localStorage.setItem('userToken', data.data.token);
+                        showAlert('Login successful! Redirecting...', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 2000);
+                    } else {
+                        showAlert('Login successful but no token received. Please try again.', 'error');
+                    }
                 } else {
                     // Login failed
                     showAlert(data.message || 'Login failed. Please try again.', 'error');
