@@ -1,43 +1,19 @@
-<<<<<<< HEAD
-# Removal of Jobs and Education Sections - TODO
+# Marketplace Integration TODO
 
-## Tasks to Complete:
+## Completed Tasks:
+- [ ] Analyze current marketplace.html structure
+- [ ] Understand user requirements for linking external platforms
+- [ ] Create implementation plan
 
-### Backend Removal
-- [x] Delete routes/jobs.js
-- [x] Delete routes/education.js
-- [x] Update app.js to remove route imports and registrations
-
-### Frontend Removal  
-- [x] Delete public/education.html
-- [x] Delete public/job.html
-- [x] Update public/index.html navigation and service grid
-- [ ] Update public/dashboard.html sidebar and quick actions
-
-### Verification
-- [ ] Test application for broken links
-- [ ] Check console for API errors
-=======
-# Chatbot Enhancement Plan
-
-## Phase 1: CSS Enhancements
-- [ ] Add chatbot-specific styling to style.css
-- [ ] Improve chat bubble design with user/bot differentiation
-- [ ] Add animations for messages
-- [ ] Enhance mobile responsiveness
-
-## Phase 2: JavaScript Improvements
-- [ ] Create separate chatbot.js file
-- [ ] Add typing indicators
-- [ ] Implement message history persistence
-- [ ] Add error handling and retry mechanisms
-
-## Phase 3: Backend Enhancement
-- [ ] Update chatbot route for contextual responses
-- [ ] Add basic NLP for common queries
-
-## Phase 4: Integration & Testing
-- [ ] Update chatbot.html to use external JS
-- [ ] Test all functionality
+## Pending Tasks:
+- [ ] Add "Popular Marketplaces" section to marketplace.html
+- [ ] Create cards/buttons for Jio Mart, Amazon, Flipkart, and Meesho
+- [ ] Style the new section to match existing design
+- [ ] Test all external links
 - [ ] Verify responsive design
->>>>>>> 2259517430ca433cf0087ecf27a20bd87d93c42f
+
+## Implementation Details:
+- Platforms to link: Jio Mart, Amazon, Flipkart, Meesho
+- Links will open in new tabs
+- Section will be placed before the product list
+- Styling will match existing marketplace design
