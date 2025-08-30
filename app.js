@@ -11,8 +11,6 @@ const authRoutes = require('./routes/auth');
 const issueRoutes = require('./routes/issues');
 const marketplaceRoutes = require('./routes/marketplace');
 const newsRoutes = require('./routes/news');
-const educationRoutes = require('./routes/education');
-const jobRoutes = require('./routes/jobs');
 const governmentRoutes = require('./routes/government');
 
 const app = express();
@@ -78,8 +76,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/issues', issueRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
 app.use('/api/news', newsRoutes);
-app.use('/api/education', educationRoutes);
-app.use('/api/jobs', jobRoutes);
 app.use('/api/government', governmentRoutes);
 
 const chatbotRoutes = require('./routes/chatbot');
@@ -145,8 +141,6 @@ app.listen(PORT, () => {
     console.log('   POST   /api/issues          - Create issue');
     console.log('   GET    /api/marketplace     - Marketplace items');
     console.log('   GET    /api/news            - News articles');
-    console.log('   GET    /api/education       - Education materials');
-    console.log('   GET    /api/jobs            - Job listings');
     console.log('   GET    /api/government      - Government services');
     console.log('   POST   /api/chatbot         - Chatbot interaction');
     console.log('   GET    /api/chatbot/health  - Chatbot health check');
