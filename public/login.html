@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,7 @@
             background: linear-gradient(135deg, #2c5aa0, #3a7a5f);
             padding: 20px;
         }
-
+        
         .auth-card {
             background: white;
             border-radius: 10px;
@@ -24,39 +25,39 @@
             max-width: 400px;
             overflow: hidden;
         }
-
+        
         .auth-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--gray-600), var(--gray-200));
             color: white;
             padding: 30px;
             text-align: center;
         }
-
+        
         .auth-header h1 {
             margin: 0;
             font-size: 1.8rem;
         }
-
+        
         .auth-header p {
             margin: 10px 0 0 0;
             opacity: 0.9;
         }
-
+        
         .auth-body {
             padding: 30px;
         }
-
+        
         .form-group {
             margin-bottom: 20px;
         }
-
+        
         .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
             color: var(--dark);
         }
-
+        
         .form-group input {
             width: 100%;
             padding: 12px 15px;
@@ -65,27 +66,27 @@
             font-size: 16px;
             transition: border-color 0.3s;
         }
-
+        
         .form-group input:focus {
             outline: none;
             border-color: var(--primary);
         }
-
+        
         .form-group.error input {
             border-color: var(--danger);
         }
-
+        
         .error-message {
             color: var(--danger);
             font-size: 14px;
             margin-top: 5px;
             display: none;
         }
-
+        
         .form-group.error .error-message {
             display: block;
         }
-
+        
         .btn-auth {
             width: 100%;
             padding: 12px;
@@ -98,32 +99,32 @@
             cursor: pointer;
             transition: background 0.3s;
         }
-
+        
         .btn-auth:hover {
             background: #1e3d72;
         }
-
+        
         .auth-footer {
             text-align: center;
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid #eee;
         }
-
+        
         .auth-footer a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
         }
-
+        
         .auth-footer a:hover {
             text-decoration: underline;
         }
-
+        
         .password-toggle {
             position: relative;
         }
-
+        
         .password-toggle i {
             position: absolute;
             right: 15px;
@@ -132,35 +133,39 @@
             cursor: pointer;
             color: #666;
         }
-
+        
         .loading {
             display: none;
             text-align: center;
             margin-top: 20px;
         }
-
+        
         .loading i {
             animation: spin 1s linear infinite;
         }
-
+        
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
-
+        
         .alert {
             padding: 12px;
             border-radius: 6px;
             margin-bottom: 20px;
             display: none;
         }
-
+        
         .alert-error {
             background: #fee;
             color: var(--danger);
             border: 1px solid #fcc;
         }
-
+        
         .alert-success {
             background: #efe;
             color: var(--success);
@@ -168,6 +173,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="auth-container">
         <div class="auth-card">
@@ -175,10 +181,10 @@
                 <h1><i class="fas fa-hands-helping"></i> Welcome Back</h1>
                 <p>Sign in to access your community services</p>
             </div>
-            
+
             <div class="auth-body">
                 <div id="alertBox" class="alert"></div>
-                
+
                 <form id="loginForm">
                     <div class="form-group">
                         <label for="email">Email Address</label>
@@ -236,18 +242,18 @@
 
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             // Reset errors
             document.querySelectorAll('.form-group').forEach(group => group.classList.remove('error'));
             alertBox.style.display = 'none';
-            
+
             // Get form data
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
-            
+
             // Validate
             let isValid = true;
-            
+
             if (!email) {
                 document.getElementById('email').parentElement.classList.add('error');
                 isValid = false;
@@ -255,18 +261,18 @@
                 document.getElementById('email').parentElement.classList.add('error');
                 isValid = false;
             }
-            
+
             if (!password) {
                 document.getElementById('password').parentElement.classList.add('error');
                 isValid = false;
             }
-            
+
             if (!isValid) return;
-            
+
             // Show loading
             loginText.style.display = 'none';
             loading.style.display = 'block';
-            
+
             try {
                 // Simulate API call (replace with actual API call)
                 const response = await fetch('/api/auth/login', {
@@ -274,11 +280,14 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     // Login successful
                     showAlert('Login successful! Redirecting...', 'success');
@@ -315,4 +324,5 @@
         }
     </script>
 </body>
+
 </html>
