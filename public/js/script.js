@@ -312,6 +312,129 @@ class ResponsiveUtils {
     }
 }
 
+// News Service
+class NewsService {
+    static async getNews(category = 'all', page = 1, limit = 10) {
+        try {
+            const params = new URLSearchParams();
+            if (category !== 'all') params.append('category', category);
+            params.append('page', page);
+            params.append('limit', limit);
+            
+            const response = await ApiService.request(`/news?${params}`);
+            return response.data || [];
+        } catch (error) {
+            console.error('Error fetching news:', error);
+            throw error;
+        }
+    }
+
+    static async searchNews(query, category = 'all') {
+        try {
+            const params = new URLSearchParams();
+            params.append('q', query);
+            if (category !== 'all') params.append('category', category);
+            
+            const response = await ApiService.request(`/news/search?${params}`);
+            return response.data || [];
+        } catch (error) {
+            console.error('Error searching news:', error);
+            throw error;
+        }
+    }
+
+    static getBookmarkedNews() {
+        return StorageService.get('bookmarkedNews') || [];
+    }
+
+    static toggleBookmark(article) {
+        const bookmarked = this.getBookmarkedNews();
+        const existingIndex = bookmarked.findIndex(a => a.id === article.id);
+        
+        if (existingIndex > -1) {
+            bookmarked.splice(existingIndex, 1);
+        } else {
+            bookmarked.push(article);
+        }
+        
+        StorageService.set('bookmarkedNews', bookmarked);
+        return existingIndex === -1; // Returns true if bookmarked, false if removed
+    }
+
+    static isBookmarked(articleId) {
+        const bookmarked = this.getBookmarkedNews();
+        return bookmarked.some(a => a.id === articleId);
+    }
+}
+
+// News Utilities
+class NewsUtils {
+    static formatArticleDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+        const diffMinutes = Math.floor(diffTime / (1000 * 60));
+
+        if (diffMinutes < 1) return 'Just now';
+        if (diffMinutes < 60) return `${diffMinutes}m ago`;
+        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffDays < 7) return `${diffDays}d ago`;
+        
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    }
+
+    static highlightText(text, query) {
+        if (!query) return text;
+        
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<mark>$1</mark>');
+    }
+
+    static debounceSearch(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    static createPagination(currentPage, totalPages, maxVisible = 5) {
+        const pages = [];
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+        
+        if (endPage - startPage + 1 < maxVisible) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+        
+        if (startPage > 1) {
+            pages.push({ page: 1, label: '1' });
+            if (startPage > 2) pages.push({ page: null, label: '...' });
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push({ page: i, label: i.toString() });
+        }
+        
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) pages.push({ page: null, label: '...' });
+            pages.push({ page: totalPages, label: totalPages.toString() });
+        }
+        
+        return pages;
+    }
+}
+
 // Export for global access
 window.VillageHelpDesk = {
     AuthService,
@@ -320,7 +443,9 @@ window.VillageHelpDesk = {
     UIUtils,
     StorageService,
     EventManager,
-    ResponsiveUtils
+    ResponsiveUtils,
+    NewsService,
+    NewsUtils
 };
 
 // Initialize common functionality when DOM is loaded
