@@ -7,138 +7,40 @@
     <title>News & Updates - Village Help Desk</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            color: #2c5aa0;
-            margin-bottom: 20px;
-        }
-        
-        .categories {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .category-btn {
-            background-color: #d9a62e;
-            color: #2c3e50;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        
-        .category-btn.active,
-        .category-btn:hover {
-            background-color: #b38a1f;
-        }
-        
-        .news-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .news-item {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .news-title {
-            font-weight: 700;
-            color: #2c5aa0;
-            margin-bottom: 8px;
-        }
-        
-        .news-date {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        
-        .news-content {
-            color: #333;
-        }
-        /* News Sources Styling */
-        
-        .news-sources {
-            margin-bottom: 25px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .news-sources h3 {
-            color: #2c5aa0;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .source-links {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .source-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-            background-color: #2c5aa0;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.3s, transform 0.2s;
-            font-weight: 500;
-        }
-        
-        .source-link:hover {
-            background-color: #1e3d73;
-            transform: translateY(-2px);
-            color: white;
-            text-decoration: none;
-        }
-        
-        .source-link i {
-            font-size: 1.1rem;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>News & Updates</h1>
-        <div class="categories" id="categories">
-            <button class="category-btn active" data-category="all">All</button>
-            <button class="category-btn" data-category="local">Local</button>
-            <button class="category-btn" data-category="national">National</button>
-            <button class="category-btn" data-category="community">Community</button>
+    <div class="news-container">
+        <div class="news-header">
+            <h1><i class="fas fa-newspaper"></i> News & Updates</h1>
+            <p>Stay informed with the latest news and updates from your community and beyond</p>
+        </div>
+
+        <div class="news-controls">
+            <div class="news-categories" id="categories">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-globe"></i> All News
+                </button>
+                <button class="category-btn" data-category="local">
+                    <i class="fas fa-map-marker-alt"></i> Local
+                </button>
+                <button class="category-btn" data-category="national">
+                    <i class="fas fa-flag"></i> National
+                </button>
+                <button class="category-btn" data-category="community">
+                    <i class="fas fa-users"></i> Community
+                </button>
+            </div>
+
+            <div class="news-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search news articles..." />
+            </div>
         </div>
 
         <!-- Popular News Sources Section -->
         <div class="news-sources">
-            <h3>Popular News Sources</h3>
+            <h3><i class="fas fa-external-link-alt"></i> Popular News Sources</h3>
             <div class="source-links">
                 <a href="https://www.aajtak.in/" target="_blank" rel="noopener noreferrer" class="source-link">
                     <i class="fas fa-newspaper"></i> Aaj Tak
@@ -149,79 +51,264 @@
                 <a href="https://www.bhaskar.com/" target="_blank" rel="noopener noreferrer" class="source-link">
                     <i class="fas fa-book-open"></i> Dainik Bhaskar
                 </a>
+                <a href="https://www.ndtv.com/" target="_blank" rel="noopener noreferrer" class="source-link">
+                    <i class="fas fa-tv"></i> NDTV
+                </a>
             </div>
         </div>
 
+        <!-- Loading State -->
+        <div class="news-loading" id="loadingState">
+            <i class="fas fa-spinner loading"></i>
+            <p>Loading news articles...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div class="news-empty d-none" id="emptyState">
+            <i class="fas fa-newspaper"></i>
+            <h3>No news articles found</h3>
+            <p>Try changing your search criteria or check back later for updates</p>
+        </div>
+
+        <!-- News List -->
         <ul class="news-list" id="newsList">
             <!-- News articles will be loaded here -->
         </ul>
+
+        <!-- Pagination -->
+        <div class="news-pagination d-none" id="pagination">
+            <!-- Pagination buttons will be loaded here -->
+        </div>
     </div>
 
+    <script src="js/script.js"></script>
     <script>
+        // Global variables
+        let currentPage = 1;
+        let currentCategory = 'all';
+        let currentSearchQuery = '';
+        let totalPages = 1;
+        const articlesPerPage = 10;
+
+        // DOM Elements
         const newsList = document.getElementById('newsList');
         const categories = document.getElementById('categories');
-        let newsArticles = [];
+        const searchInput = document.getElementById('searchInput');
+        const loadingState = document.getElementById('loadingState');
+        const emptyState = document.getElementById('emptyState');
+        const pagination = document.getElementById('pagination');
 
-        async function loadNews() {
+        // Initialize news page
+        async function initNews() {
             try {
-                const response = await fetch('/api/news');
-                const data = await response.json();
-                if (response.ok) {
-                    newsArticles = data.data || [];
-                    renderNews('all');
-                } else {
-                    newsList.innerHTML = '<li>Failed to load news articles.</li>';
-                }
+                showLoading();
+                await loadNews();
+                setupEventListeners();
             } catch (error) {
-                newsList.innerHTML = '<li>Network error. Please try again.</li>';
+                handleError(error);
             }
         }
 
-        function renderNews(category) {
-            newsList.innerHTML = '';
-            let filtered = newsArticles;
-            if (category !== 'all') {
-                filtered = newsArticles.filter(article => article.category === category);
+        // Load news articles
+        async function loadNews(page = 1) {
+            try {
+                showLoading();
+                currentPage = page;
+                
+                let articles;
+                if (currentSearchQuery) {
+                    articles = await VillageHelpDesk.NewsService.searchNews(currentSearchQuery, currentCategory);
+                } else {
+                    articles = await VillageHelpDesk.NewsService.getNews(currentCategory, page, articlesPerPage);
+                }
+                
+                renderNews(articles);
+                updatePagination();
+                hideLoading();
+            } catch (error) {
+                handleError(error);
             }
-            if (filtered.length === 0) {
-                newsList.innerHTML = '<li>No news articles found.</li>';
+        }
+
+        // Render news articles
+        function renderNews(articles) {
+            newsList.innerHTML = '';
+            
+            if (!articles || articles.length === 0) {
+                emptyState.classList.remove('d-none');
+                pagination.classList.add('d-none');
                 return;
             }
-            filtered.forEach(article => {
+            
+            emptyState.classList.add('d-none');
+            
+            articles.forEach(article => {
                 const li = document.createElement('li');
                 li.className = 'news-item';
-
-                const title = document.createElement('div');
-                title.className = 'news-title';
-                title.textContent = article.title;
-
-                const date = document.createElement('div');
-                date.className = 'news-date';
-                date.textContent = new Date(article.publishedAt).toLocaleDateString();
-
-                const content = document.createElement('div');
-                content.className = 'news-content';
-                content.textContent = article.summary || article.content || '';
-
-                li.appendChild(title);
-                li.appendChild(date);
-                li.appendChild(content);
-
+                
+                const isBookmarked = VillageHelpDesk.NewsService.isBookmarked(article.id);
+                
+                li.innerHTML = `
+                    <div class="news-header-row">
+                        <h3 class="news-title">${VillageHelpDesk.NewsUtils.highlightText(article.title, currentSearchQuery)}</h3>
+                        <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" data-id="${article.id}">
+                            <i class="fas ${isBookmarked ? 'fa-bookmark' : 'fa-bookmark'}"></i>
+                            ${isBookmarked ? 'Saved' : 'Save'}
+                        </button>
+                    </div>
+                    
+                    <div class="news-meta">
+                        <span class="news-date">
+                            <i class="fas fa-clock"></i>
+                            ${VillageHelpDesk.NewsUtils.formatArticleDate(article.publishedAt)}
+                        </span>
+                        <span class="news-category">${article.category || 'General'}</span>
+                    </div>
+                    
+                    <div class="news-content">
+                        ${VillageHelpDesk.NewsUtils.highlightText(article.summary || article.content || '', currentSearchQuery)}
+                    </div>
+                    
+                    <div class="news-actions">
+                        <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" data-id="${article.id}">
+                            <i class="fas ${isBookmarked ? 'fa-bookmark' : 'fa-bookmark'}"></i>
+                            ${isBookmarked ? 'Remove Bookmark' : 'Bookmark'}
+                        </button>
+                    </div>
+                `;
+                
                 newsList.appendChild(li);
             });
         }
 
-        categories.addEventListener('click', (e) => {
-            if (e.target.classList.contains('category-btn')) {
-                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                const category = e.target.getAttribute('data-category');
-                renderNews(category);
+        // Update pagination
+        function updatePagination() {
+            if (currentSearchQuery || totalPages <= 1) {
+                pagination.classList.add('d-none');
+                return;
             }
-        });
+            
+            pagination.classList.remove('d-none');
+            const pages = VillageHelpDesk.NewsUtils.createPagination(currentPage, totalPages);
+            
+            pagination.innerHTML = `
+                <button class="pagination-btn" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                
+                ${pages.map(page => `
+                    <button class="pagination-btn ${page.page === currentPage ? 'active' : ''}" 
+                            ${page.page === null ? 'disabled' : ''} 
+                            data-page="${page.page}">
+                        ${page.label}
+                    </button>
+                `).join('')}
+                
+                <button class="pagination-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+        }
 
-        // Initialize
-        loadNews();
+        // Setup event listeners
+        function setupEventListeners() {
+            // Category filter
+            VillageHelpDesk.EventManager.on(categories, 'click', '.category-btn', (e) => {
+                const category = e.target.getAttribute('data-category');
+                if (category !== currentCategory) {
+                    currentCategory = category;
+                    currentSearchQuery = '';
+                    searchInput.value = '';
+                    document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    loadNews(1);
+                }
+            });
+
+            // Search functionality
+            const debouncedSearch = VillageHelpDesk.NewsUtils.debounceSearch((query) => {
+                currentSearchQuery = query;
+                currentPage = 1;
+                loadNews();
+            }, 300);
+
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim();
+                debouncedSearch(query);
+            });
+
+            // Pagination
+            VillageHelpDesk.EventManager.on(pagination, 'click', '.pagination-btn', (e) => {
+                const page = parseInt(e.target.getAttribute('data-page'));
+                if (page && page !== currentPage) {
+                    loadNews(page);
+                }
+            });
+
+            // Bookmark articles
+            VillageHelpDesk.EventManager.on(newsList, 'click', '.bookmark-btn', (e) => {
+                const articleId = e.target.getAttribute('data-id');
+                const article = newsList.querySelector(`[data-id="${articleId}"]`).closest('.news-item');
+                const articleData = {
+                    id: articleId,
+                    title: article.querySelector('.news-title').textContent,
+                    summary: article.querySelector('.news-content').textContent,
+                    publishedAt: new Date().toISOString(),
+                    category: currentCategory
+                };
+                
+                const isBookmarked = VillageHelpDesk.NewsService.toggleBookmark(articleData);
+                
+                // Update all bookmark buttons for this article
+                document.querySelectorAll(`[data-id="${articleId}"]`).forEach(btn => {
+                    btn.classList.toggle('bookmarked', isBookmarked);
+                    btn.innerHTML = `
+                        <i class="fas ${isBookmarked ? 'fa-bookmark' : 'fa-bookmark'}"></i>
+                        ${isBookmarked ? 'Remove Bookmark' : 'Bookmark'}
+                    `;
+                });
+                
+                VillageHelpDesk.UIUtils.showAlert(
+                    isBookmarked ? 'Article bookmarked!' : 'Bookmark removed.',
+                    isBookmarked ? 'success' : 'info'
+                );
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && searchInput.value) {
+                    searchInput.value = '';
+                    currentSearchQuery = '';
+                    loadNews(1);
+                }
+            });
+        }
+
+        // Show loading state
+        function showLoading() {
+            loadingState.classList.remove('d-none');
+            newsList.classList.add('d-none');
+            pagination.classList.add('d-none');
+        }
+
+        // Hide loading state
+        function hideLoading() {
+            loadingState.classList.add('d-none');
+            newsList.classList.remove('d-none');
+        }
+
+        // Handle errors
+        function handleError(error) {
+            console.error('News error:', error);
+            hideLoading();
+            VillageHelpDesk.UIUtils.showAlert(
+                'Failed to load news articles. Please try again.',
+                'error'
+            );
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initNews);
     </script>
 </body>
 
