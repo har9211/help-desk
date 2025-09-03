@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Issue</title>
+    <!--link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"-->
+    <style>
+       
+div {
+  border: 1px solid black;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-right: 150px;
+  margin-left: 100px;
+  background-color: rgb(221, 232, 236);
+}
+h2 {
+  text-align: center;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+submit {
+  background-color: rgb(255, 4, 121);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+a {
+    text-align: center;
+  text-decoration: none;
+  color: rgb(255, 4, 121);
+}
+body {
+  background-color: rgb(223,237, 241);
+}
+</style>
+</head>
+<body>
+   
+        <h2>Submit Your Issue</h2>
+        <form method="post">
+            <input type="text" name="name" placeholder="Your Name"><br>
+            <textarea name="issue" placeholder="Describe your issue"></textarea><br>
+            <input type="submit" value="Submit">
+
+        </form>
+        <a href="/">Back</a>
+   
+  
+   
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin View</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Submitted Issues</h2>
+    <ul>
+        {% for ticket in tickets %}
+            <li><strong>{{ ticket[1] }}</strong>: {{ ticket[2] }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/">Back</a>
+</body>
+</html>
